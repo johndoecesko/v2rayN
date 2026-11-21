@@ -1,0 +1,64 @@
+[
+  {
+    "remarks": "Блокировка UDP/443 (QUIC)",
+    "outboundTag": "block",
+    "port": "443",
+    "network": "udp"
+  },
+  {
+    "remarks": "Прокси Google",
+    "outboundTag": "proxy",
+    "domain": [
+      "geosite:google"
+    ]
+  },
+  {
+    "remarks": "Обход локальной сети IP",
+    "outboundTag": "direct",
+    "ip": [
+      "geoip:private"
+    ]
+  },
+  {
+    "remarks": "Обход локальной сети домены",
+    "outboundTag": "direct",
+    "domain": [
+      "geosite:private"
+    ]
+  },
+  {
+    "remarks": "Обход российских IP",
+    "outboundTag": "direct",
+    "ip": [
+      "geoip:ru"
+    ]
+  },
+  {
+    "remarks": "Обход популярных российских доменов",
+    "outboundTag": "direct",
+    "domain": [
+      "domain:yandex.ru",
+      "domain:yandex.net",
+      "domain:yandex.com",
+      "domain:mail.ru",
+      "domain:vk.com",
+      "domain:ok.ru",
+      "domain:sberbank.ru",
+      "domain:gosuslugi.ru",
+      "domain:rt.ru",
+      "domain:beeline.ru",
+      "domain:mts.ru",
+      "domain:megafon.ru"
+    ]
+  },
+  {
+    "remarks": "Обход российских DNS",
+    "outboundTag": "direct",
+    "ip": [
+      "77.88.8.8",
+      "77.88.8.1",
+      "8.8.8.8",
+      "8.8.4.4"
+    ]
+  }
+]
