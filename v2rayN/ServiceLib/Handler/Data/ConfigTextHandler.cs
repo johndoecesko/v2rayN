@@ -55,6 +55,10 @@ public static class ConfigTextHandler
         {
             LogEnabled = false,
             Loglevel = "warning",
+            // Variant C (max stealth): default to Chrome TLS fingerprint for REALITY/uTLS
+            // and enable TLS-ClientHello fragmentation to evade SNI-based DPI.
+            DefFingerprint = "chrome",
+            EnableFragment = true,
         };
 
         if (config.Inbound == null)

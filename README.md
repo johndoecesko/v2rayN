@@ -40,6 +40,10 @@ Read the Wiki for usage guides and configuration details.
 
 [https://github.com/2dust/v2rayN/wiki](https://github.com/2dust/v2rayN/wiki)
 
+For Russian users (Variant C — maximum stealth against DPI/blocking): see [`docs/ru-variant-c-stealth.md`](docs/ru-variant-c-stealth.md).
+
+Для пользователей в РФ (Вариант C — максимальная скрытность от DPI/блокировок): см. [`docs/ru-variant-c-stealth.md`](docs/ru-variant-c-stealth.md).
+
 ---
 
 ## Supported Platforms / 支持平台
