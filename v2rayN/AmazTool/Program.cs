@@ -47,8 +47,8 @@ internal static class Program
         catch (Exception ex)
         {
             // Global exception handling
-            Console.WriteLine($"An error occurred: {ex.Message}");
-            Console.WriteLine("Press any key to exit...");
+            Console.WriteLine($"Произошла ошибка: {ex.Message}");
+            Console.WriteLine("Нажмите любую клавишу для выхода...");
             Console.ReadKey();
         }
     }
@@ -59,9 +59,9 @@ internal static class Program
     private static void ShowHelp()
     {
         Console.WriteLine(Resx.Resource.Guidelines);
-        Console.WriteLine("Available commands:");
-        Console.WriteLine("  rebootas             - Restart the application");
-        Console.WriteLine("  help                 - Display this help information");
+        Console.WriteLine("Доступные команды:");
+        Console.WriteLine("  rebootas             - Перезапустить приложение");
+        Console.WriteLine("  help                 - Показать эту справку");
         Thread.Sleep(5000);
     }
 
@@ -70,7 +70,7 @@ internal static class Program
     /// </summary>
     private static void HandleRebootAsync()
     {
-        Console.WriteLine("Restarting application...");
+        Console.WriteLine("Перезапуск приложения...");
         Thread.Sleep(1000);
         Utils.StartV2RayN();
     }
@@ -81,7 +81,7 @@ internal static class Program
     /// <param name="upgradeData">Data for the upgrade process</param>
     private static void HandleUpgrade(string upgradeData)
     {
-        Console.WriteLine("Upgrading application...");
+        Console.WriteLine("Обновление приложения...");
         UpgradeApp.Upgrade(upgradeData);
     }
 }

@@ -17,7 +17,7 @@
     <resheader name="version">2.0</resheader>
     <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
     <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
-    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Name1"><value>Тестовый объект</value><comment>this is a comment</comment></data>
     <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
     <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
         <value>[base64 mime encoded serialized .NET Framework object]</value>
@@ -118,39 +118,39 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Restartv2rayN" xml:space="preserve">
-    <value>Start v2rayN, please wait...</value>
+    <value>Запуск v2rayN, подождите...</value>
   </data>
   <data name="Guidelines" xml:space="preserve">
-    <value>Please run it from the main application.</value>
+    <value>Пожалуйста, запускайте из основного приложения.</value>
   </data>
   <data name="UpgradeFileNotFound" xml:space="preserve">
-    <value>Upgrade failed, file not found.</value>
+    <value>Обновление не выполнено: файл не найден.</value>
   </data>
   <data name="InProgress" xml:space="preserve">
-    <value>In progress, please wait...</value>
+    <value>Выполняется, подождите...</value>
   </data>
   <data name="TryTerminateProcess" xml:space="preserve">
-    <value>Try to terminate the v2rayN process...</value>
+    <value>Попытка завершить процесс v2rayN...</value>
   </data>
   <data name="FailedTerminateProcess" xml:space="preserve">
-    <value>Failed to terminate the v2rayN. Close it manually, or the upgrade may fail.</value>
+    <value>Не удалось завершить процесс v2rayN. Закройте его вручную, иначе обновление может не удаться.</value>
   </data>
   <data name="StartUnzipping" xml:space="preserve">
-    <value>Start extracting the update package...</value>
+    <value>Начинается распаковка пакета обновления...</value>
   </data>
   <data name="SuccessUnzipping" xml:space="preserve">
-    <value>Successfully extracted the update package.</value>
+    <value>Пакет обновления успешно распакован.</value>
   </data>
   <data name="FailedUnzipping" xml:space="preserve">
-    <value>Failed to extract the update package.</value>
+    <value>Не удалось распаковать пакет обновления.</value>
   </data>
   <data name="FailedUpgrade" xml:space="preserve">
-    <value>Upgrade failed.</value>
+    <value>Обновление не удалось.</value>
   </data>
   <data name="SuccessUpgrade" xml:space="preserve">
-    <value>Upgrade success.</value>
+    <value>Обновление успешно завершено.</value>
   </data>
   <data name="Information" xml:space="preserve">
-    <value>Information</value>
+    <value>Информация</value>
   </data>
 </root>
