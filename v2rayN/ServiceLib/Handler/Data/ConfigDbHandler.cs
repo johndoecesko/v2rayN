@@ -2475,6 +2475,15 @@ public static class ConfigDbHandler
         };
         await AddBatchRoutingRules(item1, EmbedUtils.GetEmbedText(Global.CustomRoutingFileName + "global"));
 
+        //Russia (RU direct) — for users in Russia: RU sites/IPs direct, rest via proxy
+        var item4 = new RoutingItem()
+        {
+            Remarks = $"{ver}Обход России(RU direct)",
+            Url = string.Empty,
+            Sort = maxSort + 4,
+        };
+        await AddBatchRoutingRules(item4, EmbedUtils.GetEmbedText(Global.CustomRoutingFileName + "ru"));
+
         if (!blImportAdvancedRules)
         {
             await SetDefaultRouting(item2);
