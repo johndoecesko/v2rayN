@@ -53,3 +53,22 @@
 
 - LeastPing в policy group; таймаут 10–20 с; URL — `https://www.gstatic.com/generate_204`.
 - Авто-переключение срабатывает на сбой соединения; лучший по задержке выбирается при переподключении.
+
+
+## NaïveProxy (поддерживается в UI)
+
+- Ядро: **Xray** (встроенный ECoreType.naiveproxy) или **sing-box** (TUIC как альтернатива).
+- Серверы → Добавить → **NaïveProxy**: Address/Port/Password, Protocol = `https` или `quic`.
+- Настройте AEAD-cipher (Xray), or включите Mux+Padding в sing-box.
+
+## ShadowTLS
+
+- ShadowTLS **не встроен** в этот билд (ECoreType.shadowtls отсутствует).
+- Для RU-edition функциональные аналоги: Xray + REALITY + XHTTP, sing-box + TUIC/Hysteria2.
+- Если нужен ShadowTLS — используйте пользовательский `outbound` или обновите ядро с поддержкой.
+
+## Padding (XHTTP / finalmask)
+
+- **Xray**: добавьте настройки паддинга через `XhttpExtra` (JSON, согласуйте с документацией Xray) — noise-mask / tcp-level padding.
+- **XRay finalmask** (в этой сборке): поддерживаются `fragment` (включено по умолчанию) и `noise` маски через XhttpExtra.
+- **sing-box Mux**: включите `Mux Padding` (MuxEnabled → padding выбранное в UI).
