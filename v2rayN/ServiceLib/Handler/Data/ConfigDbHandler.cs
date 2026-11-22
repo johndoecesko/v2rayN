@@ -1254,23 +1254,8 @@ public static class ConfigDbHandler
 
     private static readonly Dictionary<string, string> PolicyGroupRegionFilters = new()
     {
-        { "JP", "日本|\\b[Jj][Pp]\\b|🇯🇵|[Jj]apan" },
-        { "US", "美国|\\b[Uu][Ss]\\b|🇺🇸|[Uu]nited [Ss]tates|\\b[Uu][Ss][Aa]\\b" },
-        { "HK", "香港|\\b[Hh][Kk]\\b|🇭🇰|[Hh]ong ?[Kk]ong" },
-        { "TW", "台湾|台灣|\\b[Tt][Ww]\\b|🇹🇼|[Tt]aiwan" },
-        { "KR", "韩国|\\b[Kk][Rr]\\b|🇰🇷|[Kk]orea" },
-        { "SG", "新加坡|\\b[Ss][Gg]\\b|🇸🇬|[Ss]ingapore" },
-        { "DE", "德国|\\b[Dd][Ee]\\b|🇩🇪|[Gg]ermany" },
-        { "FR", "法国|\\b[Ff][Rr]\\b|🇫🇷|[Ff]rance" },
-        { "GB", "英国|\\b[Gg][Bb]\\b|🇬🇧|[Uu]nited [Kk]ingdom|[Bb]ritain" },
-        { "CA", "加拿大|🇨🇦|[Cc]anada" },
-        { "AU", "澳大利亚|\\b[Aa][Uu]\\b|🇦🇺|[Aa]ustralia" },
-        { "RU", "俄罗斯|\\b[Rr][Uu]\\b|🇷🇺|[Rr]ussia" },
-        { "BR", "巴西|\\b[Bb][Rr]\\b|🇧🇷|[Bb]razil" },
-        { "IN", "印度|🇮🇳|[Ii]ndia" },
-        { "VN", "越南|\\b[Vv][Nn]\\b|🇻🇳|[Vv]ietnam" },
-        { "ID", "印度尼西亚|\\b[Ii][Dd]\\b|🇮🇩|[Ii]ndonesia" },
-        { "MX", "墨西哥|\\b[Mm][Xx]\\b|🇲🇽|[Mm]exico" }
+        { "RU", "Россия|\\b[Rr][Uu]\\b|🇷🇺|Россия|РФ|Российская Федерация" },
+        { "US", "США|\\b[Uu][Ss]\\b|🇺🇸|United States|Соединённые Штаты" }
     };
 
     public static async Task<RetResult> AddGroupRegionServer(SubItem? subItem)
@@ -2412,7 +2397,7 @@ public static class ConfigDbHandler
 
     /// <summary>
     /// Initialize built-in routing rules
-    /// Creates default routing configurations (whitelist, blacklist, global)
+    /// RU preset (RU direct) - the only built-in preset.
     /// </summary>
     /// <param name="config">Current configuration</param>
     /// <param name="blImportAdvancedRules">Whether to import advanced rules</param>
@@ -2420,6 +2405,7 @@ public static class ConfigDbHandler
     public static async Task<int> InitBuiltinRouting(bool blImportAdvancedRules = false)
     {
         var ver = "V4-";
+        var ruRemarks = $"{ver}Обход России(RU direct)";
         var items = await ConfigDbQuery.RoutingItems();
 
         //TODO Temporary code to be removed later
@@ -2428,6 +2414,21 @@ public static class ConfigDbHandler
         {
             await ConfigDbHandler.RemoveRoutingItem(lockItem);
             items = await ConfigDbQuery.RoutingItems();
+        }
+
+        // RU preset is the only built-in preset now:
+        // remove legacy built-in presets (whitelist/blacklist/global, etc.)
+        if (!blImportAdvancedRules)
+        {
+            var legacyItems = items?.Where(t => t.Remarks.StartsWith(ver) && !t.Remarks.Contains("RU")).ToList() ?? [];
+            foreach (var item in legacyItems)
+            {
+                await RemoveRoutingItem(item);
+            }
+            if (legacyItems.Count > 0)
+            {
+                items = await ConfigDbQuery.RoutingItems();
+            }
         }
 
         if (!blImportAdvancedRules && items.Count() > 0) // items.Count(u => u.Remarks.StartsWith(ver)) > 0)
@@ -2447,50 +2448,24 @@ public static class ConfigDbHandler
             return 0;
         }
 
-        var maxSort = items.Count;
-        //Bypass the mainland
-        var item2 = new RoutingItem()
+        var ruItem = items?.FirstOrDefault(t => t.Remarks.StartsWith(ver) && t.Remarks.Contains("RU"));
+        if (ruItem == null)
         {
-            Remarks = $"{ver}绕过大陆(Whitelist)",
-            Url = string.Empty,
-            Sort = maxSort + 1,
-        };
-        await AddBatchRoutingRules(item2, EmbedUtils.GetEmbedText(Global.CustomRoutingFileName + "white"));
-
-        //Blacklist
-        var item3 = new RoutingItem()
-        {
-            Remarks = $"{ver}黑名单(Blacklist)",
-            Url = string.Empty,
-            Sort = maxSort + 2,
-        };
-        await AddBatchRoutingRules(item3, EmbedUtils.GetEmbedText(Global.CustomRoutingFileName + "black"));
-
-        //Global
-        var item1 = new RoutingItem()
-        {
-            Remarks = $"{ver}全局(Global)",
-            Url = string.Empty,
-            Sort = maxSort + 3,
-        };
-        await AddBatchRoutingRules(item1, EmbedUtils.GetEmbedText(Global.CustomRoutingFileName + "global"));
-
-        //Russia (RU direct) — for users in Russia: RU sites/IPs direct, rest via proxy
-        var item4 = new RoutingItem()
-        {
-            Remarks = $"{ver}Обход России(RU direct)",
-            Url = string.Empty,
-            Sort = maxSort + 4,
-        };
-        await AddBatchRoutingRules(item4, EmbedUtils.GetEmbedText(Global.CustomRoutingFileName + "ru"));
+            ruItem = new RoutingItem()
+            {
+                Remarks = ruRemarks,
+                Url = string.Empty,
+                Sort = (items?.Count ?? 0) + 1,
+            };
+            await AddBatchRoutingRules(ruItem, EmbedUtils.GetEmbedText(Global.CustomRoutingFileName + "ru"));
+        }
 
         if (!blImportAdvancedRules)
         {
-            await SetDefaultRouting(item2);
+            await SetDefaultRouting(ruItem);
         }
         return 0;
     }
-
     /// <summary>
     /// Remove a routing item from the database
     /// </summary>

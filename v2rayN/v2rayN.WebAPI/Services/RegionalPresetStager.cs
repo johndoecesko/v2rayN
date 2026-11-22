@@ -242,9 +242,7 @@ internal sealed class RegionalPresetStager(
 
         var defaults = new[]
         {
-            (Name: "绕过大陆(Whitelist)", Resource: "white"),
-            (Name: "黑名单(Blacklist)", Resource: "black"),
-            (Name: "全局(Global)", Resource: "global"),
+            (Name: "Обход России(RU direct)", Resource: "ru"),
         };
         var builtins = defaults.Select((entry, index) =>
         {

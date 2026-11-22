@@ -117,19 +117,19 @@ public class Global
     public const string SingboxSrsDownloadHttpClientTag = "srs-download-http-client";
 
     public const int Hysteria2DefaultHopInt = 30;
-    public const string PolicyGroupExcludeKeywords = @"剩余|过期|到期|重置|[Rr]emaining|[Ee]xpir|[Rr]eset";
+    public const string PolicyGroupExcludeKeywords = @"Остаток|Истекает|Конец действия|Сброс|[Rr]emaining|[Ee]xpir|[Rr]eset";
     public const string PolicyGroupDefaultAllFilter = $"^(?!.*(?:{PolicyGroupExcludeKeywords})).*$";
 
     public static readonly List<string> PolicyGroupDefaultFilterList =
     [
         // All nodes (exclude traffic/expiry info)
         PolicyGroupDefaultAllFilter,
-        // Low multiplier nodes, e.g. ×0.1, 0.5x, 0.1倍
+        // Low multiplier nodes, e.g. ×0.1, 0.5x
         @"^.*(?:[×xX✕*]\s*0\.[0-9]+|0\.[0-9]+\s*[×xX✕*倍]).*$",
         // Dedicated line nodes, e.g. IPLC, IEPL
-        $@"^(?!.*(?:{PolicyGroupExcludeKeywords})).*(?:专线|IPLC|IEPL|中转).*$",
-        // Japan nodes
-        $@"^(?!.*(?:{PolicyGroupExcludeKeywords})).*(?:日本|\\b[Jj][Pp]\\b|🇯🇵|[Jj]apan).*$",
+        $@"^(?!.*(?:{PolicyGroupExcludeKeywords})).*(?:Спецлиния|IPLC|IEPL|Транзит).*$",
+        // Russia nodes
+        $@"^(?!.*(?:{PolicyGroupExcludeKeywords})).*(?:Россия|\\b[Rr][Uu]\\b|🇷🇺|[Jj]apan).*$",
     ];
 
     public static readonly List<string> IEProxyProtocols =

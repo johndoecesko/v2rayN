@@ -25,8 +25,8 @@ public static class NetworkUtils
         // Windows / macOS / Generic
         "ethernet", "wlan", "wi-fi", "wifi", "airport",
 
-        // Chinese
-        "以太网", "无线", "局域网"
+        // Russian
+        "Ethernet", "Проводная сеть", "Беспроводная сеть", "Локальная сеть"
     ];
 
     private static readonly string[] _virtualNameBlacklistKeywords =
@@ -42,8 +42,8 @@ public static class NetworkUtils
         // Windows NDIS filter sub-layers & pseudo-interfaces
         "wan miniport", "lightweight filter", "filter driver", "packet scheduler", "npcap", "kernel debug",
 
-        // Chinese
-        "虚拟", "回环", "环回"
+        // Russian
+        "Виртуальная", "Кольцевая", "Loopback"
     ];
 
     public static bool IsAutoBindInterface(string? bindInterface)

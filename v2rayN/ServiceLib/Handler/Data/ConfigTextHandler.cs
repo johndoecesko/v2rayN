@@ -157,7 +157,7 @@ public static class ConfigTextHandler
         config.SimpleDNSItem.GlobalFakeIp ??= true;
         config.SimpleDNSItem.BootstrapDNS ??= Global.DomainPureIPDNSAddress.FirstOrDefault();
         config.SimpleDNSItem.ServeStale ??= false;
-        config.SimpleDNSItem.ParallelQuery ??= false;
+        config.SimpleDNSItem.ParallelQuery ??= true;
         config.SimpleDNSItem.EnableHappyEyeballs ??= false;
 
         config.SpeedTestItem ??= new();

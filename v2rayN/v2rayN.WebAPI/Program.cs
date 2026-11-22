@@ -27,7 +27,7 @@ internal static class Program
         }
         catch (NativeEnvironmentConfigurationException exception)
         {
-            Console.Error.WriteLine($"Invalid v2rayN.WebAPI environment configuration: {exception.Message}");
+            Console.Error.WriteLine($"Некорректная конфигурация v2rayN.WebAPI: {exception.Message}");
             return 1;
         }
 
@@ -260,7 +260,7 @@ internal static class Program
             }
             catch (BadHttpRequestException exception) when (context.Request.Path.StartsWithSegments("/api") && !context.Response.HasStarted)
             {
-                app.Logger.LogInformation(exception, "Invalid API request.");
+                app.Logger.LogInformation(exception, "Недопустимый API-запрос.");
                 var isPayloadTooLarge = exception.StatusCode == StatusCodes.Status413PayloadTooLarge;
                 context.Response.StatusCode = isPayloadTooLarge ? StatusCodes.Status413PayloadTooLarge : StatusCodes.Status400BadRequest;
                 await context.Response.WriteAsJsonAsync(ApiEnvelope<object>.Fail(
@@ -269,7 +269,7 @@ internal static class Program
             }
             catch (JsonException exception) when (context.Request.Path.StartsWithSegments("/api") && !context.Response.HasStarted)
             {
-                app.Logger.LogInformation(exception, "Invalid API JSON payload.");
+                app.Logger.LogInformation(exception, "Некорректный JSON-запрос API.");
                 context.Response.StatusCode = StatusCodes.Status400BadRequest;
                 await context.Response.WriteAsJsonAsync(ApiEnvelope<object>.Fail("json_invalid", ApiMessageKeys.CommonInvalidInput));
             }
@@ -279,7 +279,7 @@ internal static class Program
             }
             catch (Exception exception) when (context.Request.Path.StartsWithSegments("/api") && !context.Response.HasStarted)
             {
-                app.Logger.LogError(exception, "Unhandled API request failure.");
+                app.Logger.LogError(exception, "Необработанная ошибка API-запроса.");
                 context.Response.StatusCode = StatusCodes.Status500InternalServerError;
                 await context.Response.WriteAsJsonAsync(ApiEnvelope<object>.Fail("internal_error", ApiMessageKeys.CommonInternal));
             }
@@ -342,7 +342,7 @@ internal static class Program
 
     private static void WriteNativeRestartDiagnostic(string message, bool success = false, int? processId = null)
     {
-        var line = $"{DateTimeOffset.UtcNow:O} {(success ? "INFO" : "ERROR")} {message}"
+        var line = $"{DateTimeOffset.UtcNow:O} {(success ? "INFO" : "ОШИБКА")} {message}"
             + (processId.HasValue ? $" ProcessId={processId.Value}." : string.Empty)
             + Environment.NewLine;
         if (!success)
