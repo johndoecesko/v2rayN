@@ -9,6 +9,7 @@
 
     <ItemGroup>
         <PackageReference Include="TUnit" />
+        <PackageReference Include="Microsoft.DotNet.ILCompiler" />
         <PackageReference Include="TUnit.Assertions.Should" />
     </ItemGroup>
 
