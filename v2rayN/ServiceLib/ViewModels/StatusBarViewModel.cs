@@ -259,7 +259,7 @@ public partial class StatusBarViewModel : MyReactiveObject
 
     private string GetRunningServerToolTipText(string serverInfo)
     {
-        return Utils.IsLinux() ? Global.AppName : serverInfo;
+        return Utils.IsLinux() ? Global.AppDisplayName : serverInfo;
     }
 
     public async Task<AvailabilityCheckResult?> TestServerAvailability()

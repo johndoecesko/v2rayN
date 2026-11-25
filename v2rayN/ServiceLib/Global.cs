@@ -3,6 +3,7 @@ namespace ServiceLib;
 public class Global
 {
     public const string AppName = "v2rayN";
+    public const string AppDisplayName = "Tropa";
     public const string GithubUrl = "https://github.com";
     public const string GithubApiUrl = "https://api.github.com/repos";
     // Repository (owner/name) this app downloads its own self-updates from.
