@@ -246,9 +246,7 @@ internal sealed class RegionalPresetStager(
         var defaults = new[]
         {
             (Name: "Обход России(RU direct)", Resource: "ru", DomainStrategy: Global.IPIfNonMatch),
-            (Name: "绕过大陆(Whitelist)", Resource: "white", DomainStrategy: string.Empty),
-            (Name: "黑名单(Blacklist)", Resource: "black", DomainStrategy: string.Empty),
-            (Name: "全局(Global)", Resource: "global", DomainStrategy: string.Empty),
+            (Name: "Всё через прокси(Global)", Resource: "global", DomainStrategy: string.Empty),
         };
         var builtins = defaults.Select((entry, index) =>
         {

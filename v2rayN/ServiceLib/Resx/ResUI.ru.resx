@@ -1333,7 +1333,7 @@
     <value>Настройка региональных пресетов</value>
   </data>
   <data name="menuRegionalPresetsDefault" xml:space="preserve">
-    <value>По умолчанию (Китай)</value>
+    <value>Встроенные правила</value>
   </data>
   <data name="menuRegionalPresetsRussia" xml:space="preserve">
     <value>Россия</value>

@@ -232,6 +232,7 @@
                                     <MenuItem
                                         x:Name="menuRegionalPresetsIran"
                                         Height="{StaticResource MenuItemHeight}"
+                                        Visibility="Collapsed"
                                         Header="{x:Static resx:ResUI.menuRegionalPresetsIran}" />
                                 </MenuItem>
                                 <MenuItem
@@ -276,23 +277,6 @@
                                             VerticalAlignment="Center"
                                             Kind="Reload" />
                                         <TextBlock Text="{x:Static resx:ResUI.menuReload}" />
-                                    </StackPanel>
-                                </MenuItem.Header>
-                            </MenuItem>
-                        </Menu>
-                        <Separator />
-                        <Menu Margin="0,1" Style="{StaticResource ToolbarMenu}">
-                            <MenuItem
-                                x:Name="menuPromotion"
-                                Padding="{StaticResource MarginLeftRight8}"
-                                AutomationProperties.Name="{x:Static resx:ResUI.menuPromotion}">
-                                <MenuItem.Header>
-                                    <StackPanel Orientation="Horizontal">
-                                        <materialDesign:PackIcon
-                                            Margin="{StaticResource MarginRight8}"
-                                            VerticalAlignment="Center"
-                                            Kind="VolumeHigh" />
-                                        <TextBlock Text="{x:Static resx:ResUI.menuPromotion}" />
                                     </StackPanel>
                                 </MenuItem.Header>
                             </MenuItem>
