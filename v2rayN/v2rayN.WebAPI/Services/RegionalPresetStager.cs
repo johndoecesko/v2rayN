@@ -228,6 +228,8 @@ internal sealed class RegionalPresetStager(
 
         if (items.Count > 0)
         {
+            // Like InitBuiltinRouting, existing tables get no builtin rows here; the RU preset
+            // is added to upgraded installs once at startup by ForkMigrations (AppManager.InitComponents).
             var migrationTarget = clearLegacyIndex
                 ? items.FirstOrDefault(item => item.Id == legacyRoutingIndexId)
                 : null;
@@ -240,11 +242,13 @@ internal sealed class RegionalPresetStager(
                 IsBuiltinFallback: true);
         }
 
+        // Keep in sync with ConfigDbHandler.InitBuiltinRouting; the first entry becomes the default
         var defaults = new[]
         {
-            (Name: "绕过大陆(Whitelist)", Resource: "white"),
-            (Name: "黑名单(Blacklist)", Resource: "black"),
-            (Name: "全局(Global)", Resource: "global"),
+            (Name: "Обход России(RU direct)", Resource: "ru", DomainStrategy: Global.IPIfNonMatch),
+            (Name: "绕过大陆(Whitelist)", Resource: "white", DomainStrategy: string.Empty),
+            (Name: "黑名单(Blacklist)", Resource: "black", DomainStrategy: string.Empty),
+            (Name: "全局(Global)", Resource: "global", DomainStrategy: string.Empty),
         };
         var builtins = defaults.Select((entry, index) =>
         {
@@ -258,6 +262,7 @@ internal sealed class RegionalPresetStager(
                 RuleNum = rules.Count,
                 RuleSet = JsonUtils.Serialize(rules, false),
                 Enabled = true,
+                DomainStrategy = entry.DomainStrategy,
                 Sort = index + 1,
             };
         }).ToArray();

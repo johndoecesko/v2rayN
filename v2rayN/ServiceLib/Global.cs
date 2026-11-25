@@ -5,6 +5,8 @@ public class Global
     public const string AppName = "v2rayN";
     public const string GithubUrl = "https://github.com";
     public const string GithubApiUrl = "https://api.github.com/repos";
+    // Repository (owner/name) this app downloads its own self-updates from.
+    public const string AppRepo = "johndoecesko/v2rayN";
     public const string GeoUrl = "https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/{0}.dat";
     public const string SingboxRulesetUrl = @"https://raw.githubusercontent.com/2dust/sing-box-rules/rule-set-{0}/{1}.srs";
 
@@ -214,7 +216,7 @@ public class Global
 
     public static readonly Dictionary<string, string> RawHttpUserAgentTexts = new()
     {
-        {"chrome","Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.131 Safari/537.36" },
+        {"chrome","Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36" },
         {"firefox","Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:90.0) Gecko/20100101 Firefox/90.0" },
         {"safari","Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.1.1 Safari/605.1.15" },
         {"edge","Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36 Edg/91.0.864.70" },
@@ -481,6 +483,9 @@ public class Global
 
     public static readonly List<string> DomainDirectDNSAddress =
     [
+        "77.88.8.8",
+        "77.88.8.8,77.88.8.1",
+        "https://common.dot.dns.yandex.net/dns-query",
         "119.29.29.29",
         "223.5.5.5",
         "119.29.29.29,223.5.5.5,https://doh.pub/dns-query",
@@ -511,6 +516,7 @@ public class Global
 
     public static readonly List<string> DomainPureIPDNSAddress =
     [
+        "77.88.8.8",
         "119.29.29.29",
         "223.5.5.5",
         "localhost"
@@ -532,6 +538,8 @@ public class Global
 
     public static readonly List<LanguageOption> LanguageOptions =
     [
+        // This build ships the Russian UI only. The other upstream .resx files are kept
+        // untouched so that merges from 2dust/v2rayN stay conflict-free.
         new("ru", "Русский")
     ];
 
@@ -700,7 +708,7 @@ public class Global
         { ECoreType.overtls, "ShadowsocksR-Live/overtls" },
         { ECoreType.shadowquic, "spongebob888/shadowquic" },
         { ECoreType.mieru, "enfein/mieru" },
-        { ECoreType.v2rayN, "2dust/v2rayN" },
+        { ECoreType.v2rayN, AppRepo },
     };
 
     public static readonly List<string> OtherGeoUrls =

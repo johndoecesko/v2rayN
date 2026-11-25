@@ -816,7 +816,7 @@ Package: v2rayn
 Version: ${VERSION}
 Architecture: ${deb_arch}
 Maintainer: 2dust <noreply@github.com>
-Homepage: https://github.com/2dust/v2rayN
+Homepage: https://github.com/johndoecesko/v2rayN
 Section: net
 Priority: optional
 Depends: ${final_depends}

@@ -1,0 +1,60 @@
+name: Sync upstream
+
+on:
+  schedule:
+    - cron: '17 3 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  sync:
+    if: github.repository == 'johndoecesko/v2rayN'
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      UPSTREAM: https://github.com/2dust/v2rayN.git
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v7
+      with:
+        ref: master
+        fetch-depth: 0
+
+    - name: Merge upstream and open PR
+      shell: bash
+      run: |
+        set -euo pipefail
+        git config user.name "github-actions[bot]"
+        git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+        git remote add upstream "$UPSTREAM"
+        git fetch upstream master
+
+        if git merge-base --is-ancestor upstream/master HEAD; then
+          echo "Fork is up to date with upstream."
+          exit 0
+        fi
+
+        existing="$(gh pr list --state open --search 'head:sync/upstream-' --json number --jq '.[0].number // empty')"
+        if [[ -n "$existing" ]]; then
+          echo "Open sync PR #$existing already exists; skipping."
+          exit 0
+        fi
+
+        branch="sync/upstream-$(date -u +%Y-%m-%d)"
+        count="$(git rev-list --count HEAD..upstream/master)"
+
+        if git merge --no-ff --no-edit -m "Merge upstream 2dust/v2rayN master" upstream/master; then
+          git push origin "HEAD:refs/heads/$branch"
+          gh pr create --base master --head "$branch" \
+            --title "Sync upstream $(date -u +%Y-%m-%d)" \
+            --body "Automatic merge of 2dust/v2rayN master ($count new commits). Merged cleanly."
+        else
+          git merge --abort
+          git push origin "upstream/master:refs/heads/$branch"
+          gh pr create --base master --head "$branch" \
+            --title "Sync upstream $(date -u +%Y-%m-%d) (CONFLICTS)" \
+            --body "2dust/v2rayN master has $count new commits, but merging into master **conflicts**. This branch is a plain copy of upstream master. Resolve locally: \`git checkout master && git merge upstream/master\`, fix conflicts, push and replace this PR."
+        fi

@@ -161,7 +161,7 @@ PY
 
 python3 "$web_root/Scripts/web-update-manifest.py" write \
   --version 7.25.3 \
-  --repository 2dust/v2rayN \
+  --repository johndoecesko/v2rayN \
   --commit 0123456789abcdef \
   --build-date 2026-09-28T00:00:00Z \
   --dist "$temporary/dist" \
@@ -169,13 +169,13 @@ python3 "$web_root/Scripts/web-update-manifest.py" write \
 python3 "$web_root/Scripts/web-update-manifest.py" verify \
   --manifest "$temporary/dist/WebAPI-update.json" \
   --dist "$temporary/dist" \
-  --repository 2dust/v2rayN \
+  --repository johndoecesko/v2rayN \
   --version 7.25.3
 
 if python3 "$web_root/Scripts/web-update-manifest.py" verify \
   --manifest "$temporary/dist/WebAPI-update.json" \
   --dist "$temporary/dist" \
-  --repository 2dust/v2rayN \
+  --repository johndoecesko/v2rayN \
   --version 7.25.4 2>/dev/null; then
   echo "Expected the wrong requested release version to be rejected" >&2
   exit 1
@@ -206,7 +206,7 @@ packages = {package["rid"]: package for package in manifest["packages"]}
 assert set(packages) == set(expected), packages
 for rid, asset in expected.items():
     package = packages[rid]
-    url = f"https://github.com/2dust/v2rayN/releases/download/7.25.3/{asset}"
+    url = f"https://github.com/johndoecesko/v2rayN/releases/download/7.25.3/{asset}"
     assert asset.endswith("-WebAPI-update.zip"), asset
     assert package["asset"] == asset, package
     assert package["url"] == url, package
@@ -219,7 +219,7 @@ PY
 # A dev identity must never become a release manifest.
 if python3 "$web_root/Scripts/web-update-manifest.py" write \
   --version 7.25.3-dev \
-  --repository 2dust/v2rayN \
+  --repository johndoecesko/v2rayN \
   --commit 0123456789abcdef \
   --build-date 2026-09-28T00:00:00Z \
   --dist "$temporary/dist" \
@@ -236,7 +236,7 @@ cp -a "$temporary/dist/WebAPI-update.json" "$temporary/tampered/WebAPI-update.js
 if python3 "$web_root/Scripts/web-update-manifest.py" verify \
   --manifest "$temporary/tampered/WebAPI-update.json" \
   --dist "$temporary/tampered" \
-  --repository 2dust/v2rayN 2>/dev/null; then
+  --repository johndoecesko/v2rayN 2>/dev/null; then
   echo "Expected the tampered manifest to be rejected" >&2
   exit 1
 fi
@@ -327,7 +327,7 @@ for variant in \
   embedded-bin symlink duplicate traversal; do
   if python3 "$web_root/Scripts/web-update-manifest.py" write \
     --version 7.25.3 \
-    --repository 2dust/v2rayN \
+    --repository johndoecesko/v2rayN \
     --commit 0123456789abcdef \
     --build-date 2026-09-28T00:00:00Z \
     --dist "$temporary/identity-tamper/$variant" \

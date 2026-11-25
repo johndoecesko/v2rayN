@@ -49,6 +49,8 @@ public static class ConfigTextHandler
             }
         }
 
+        // A missing (or unreadable) config file means a brand-new install
+        var isNewConfig = config == null;
         config ??= new Config();
 
         config.CoreBasicItem ??= new()
@@ -142,12 +144,18 @@ public static class ConfigTextHandler
             }
         }
 
-        if (config.UiItem.CurrentLanguage.IsNullOrEmpty())
+        // Only Russian is shipped: also migrate configs that still point to a removed language
+        if (config.UiItem.CurrentLanguage.IsNullOrEmpty() || !Global.Languages.Contains(config.UiItem.CurrentLanguage))
         {
-            config.UiItem.CurrentLanguage = "ru";
+            config.UiItem.CurrentLanguage = Global.Languages.First();
         }
 
         config.ConstItem ??= new ConstItem();
+        if (isNewConfig)
+        {
+            // First run uses the Russia regional preset sources (offline-safe; see ForkMigrations)
+            ForkMigrations.ApplyFirstRunDefaults(config);
+        }
 
         config.SimpleDNSItem ??= ConfigDbHandler.InitBuiltinSimpleDNS();
         config.SimpleDNSItem.BlockAAAAQuery ??= false;

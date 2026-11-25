@@ -106,7 +106,7 @@ public class RegionalPresetStagingTests
         await capturedStage!.DnsItems[0].NormalDNS.Should().BeEqualTo("existing-xray-data");
         await capturedStage.SimpleDnsItem.RemoteDNS.Should().BeEqualTo(ConfigDbHandler.InitBuiltinSimpleDNS().RemoteDNS);
         await capturedStage.Routing.IsBuiltinFallback.Should().BeTrue();
-        await capturedStage.Routing.Items.Count.Should().BeEqualTo(3);
+        await capturedStage.Routing.Items.Count.Should().BeEqualTo(4);
         await config.ConstItem.GeoSourceUrl.Should().BeEqualTo("original-geo-source");
         await dnsRows.SequenceEqual(new[] { "original dns" }).Should().BeTrue();
         await routingRows.SequenceEqual(new[] { "original routing" }).Should().BeTrue();
@@ -578,11 +578,29 @@ public class RegionalPresetStagingTests
         var staged = await stager.StageAsync(EPresetType.Russia, CreateDnsRows(), [], null, CancellationToken.None);
 
         await staged.Routing.IsBuiltinFallback.Should().BeTrue();
-        await staged.Routing.Items.Count.Should().BeEqualTo(3);
-        await staged.Routing.Items[0].Remarks.Should().BeEqualTo("V4-绕过大陆(Whitelist)");
+        await staged.Routing.Items.Count.Should().BeEqualTo(4);
+        await staged.Routing.Items[0].Remarks.Should().BeEqualTo("V4-Обход России(RU direct)");
         await staged.Routing.DefaultRemarks.Should().BeEqualTo(staged.Routing.Items[0].Remarks);
         await staged.Routing.Items.All(item => item.RuleNum > 0).Should().BeTrue();
         await staged.Routing.ExistingDefaultItemId.Should().BeNull();
+    }
+
+    [Test]
+    public async Task FirstRunDefaultsMatchTheStagedRussiaPresetAndFallBackToTheBuiltinRuRouteOffline()
+    {
+        var stager = new RegionalPresetStager((_, _, _) => Task.FromResult<string?>(null));
+
+        var staged = await stager.StageAsync(EPresetType.Russia, CreateDnsRows(), [], null, CancellationToken.None);
+        var config = new Config();
+        ForkMigrations.ApplyFirstRunDefaults(config);
+
+        // A fresh Desktop or WebAPI config starts with the Russia preset sources ...
+        await config.ConstItem.GeoSourceUrl.Should().BeEqualTo(staged.GeoSourceUrl);
+        await config.ConstItem.SrsSourceUrl.Should().BeEqualTo(staged.SrsSourceUrl);
+        await config.ConstItem.RouteRulesTemplateSourceUrl.Should().BeEqualTo(staged.RouteRulesTemplateSourceUrl);
+        // ... and without network the routing falls back to the embedded RU preset as default.
+        await staged.Routing.IsBuiltinFallback.Should().BeTrue();
+        await staged.Routing.DefaultRemarks.Should().BeEqualTo("V4-Обход России(RU direct)");
     }
 
     [Test]
@@ -669,6 +687,6 @@ public class RegionalPresetStagingTests
         await staged.DnsItems[0].NormalDNS.Should().BeEqualTo("existing-xray-data");
         await staged.SimpleDnsItem.RemoteDNS.Should().BeEqualTo(ConfigDbHandler.InitBuiltinSimpleDNS().RemoteDNS);
         await staged.Routing.IsBuiltinFallback.Should().BeTrue();
-        await staged.Routing.Items.Count.Should().BeEqualTo(3);
+        await staged.Routing.Items.Count.Should().BeEqualTo(4);
     }
 }
