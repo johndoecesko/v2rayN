@@ -11,6 +11,8 @@ permissions:
 
 jobs:
   update-cert:
+    # Upstream already runs this daily; in forks, pull it in via sync-upstream instead of daily PR noise
+    if: github.repository == '2dust/v2rayN'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout

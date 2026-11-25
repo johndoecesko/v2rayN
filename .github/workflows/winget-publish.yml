@@ -10,6 +10,8 @@ on:
 
 jobs:
   winget:
+    # Only upstream owns the 2dust.v2rayN winget package and the PT_WINGET token
+    if: github.repository == '2dust/v2rayN'
     name: Publish winget package
     runs-on: windows-latest
     steps:
