@@ -7,6 +7,9 @@ public class Global
     public const string GithubApiUrl = "https://api.github.com/repos";
     // Repository (owner/name) this app downloads its own self-updates from.
     public const string AppRepo = "johndoecesko/v2rayN";
+    // Fork project page ("About") and the Russian setup guide opened from the Help menu.
+    public const string AppRepoUrl = GithubUrl + "/" + AppRepo;
+    public const string SetupGuideUrl = AppRepoUrl + "/blob/master/docs/ru-variant-c-stealth.md";
     public const string GeoUrl = "https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/{0}.dat";
     public const string SingboxRulesetUrl = @"https://raw.githubusercontent.com/2dust/sing-box-rules/rule-set-{0}/{1}.srs";
 

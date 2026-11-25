@@ -41,8 +41,13 @@ public partial class MainWindowViewModel : MyReactiveObject
     public ReactiveCommand<RxVoid, RxVoid> AddServerViaScanCmd { get; }
     public ReactiveCommand<RxVoid, RxVoid> AddServerViaImageCmd { get; }
 
+    //Connection indicator (top bar): toggles system proxy / TUN via StatusBarViewModel
+    public ReactiveCommand<RxVoid, RxVoid> ToggleConnectionCmd { get; }
+
     //Subscription
     public ReactiveCommand<RxVoid, RxVoid> SubSettingCmd { get; }
+
+    public ReactiveCommand<RxVoid, RxVoid> SubAddCmd { get; }
 
     public ReactiveCommand<RxVoid, RxVoid> SubUpdateCmd { get; }
     public ReactiveCommand<RxVoid, RxVoid> SubUpdateViaProxyCmd { get; }
@@ -59,6 +64,11 @@ public partial class MainWindowViewModel : MyReactiveObject
     public ReactiveCommand<RxVoid, RxVoid> RebootAsAdminCmd { get; }
     public ReactiveCommand<RxVoid, RxVoid> ClearServerStatisticsCmd { get; }
     public ReactiveCommand<RxVoid, RxVoid> OpenTheFileLocationCmd { get; }
+
+    //Help
+    public ReactiveCommand<RxVoid, RxVoid> OpenSetupGuideCmd { get; }
+
+    public ReactiveCommand<RxVoid, RxVoid> OpenAboutCmd { get; }
 
     //Presets
     public ReactiveCommand<RxVoid, RxVoid> RegionalPresetDefaultCmd { get; }
@@ -174,10 +184,19 @@ public partial class MainWindowViewModel : MyReactiveObject
             await AddServerViaImageAsync();
         });
 
+        ToggleConnectionCmd = ReactiveCommand.CreateFromTask(async () =>
+        {
+            await StatusBarViewModel.ToggleConnectionAsync();
+        });
+
         //Subscription
         SubSettingCmd = ReactiveCommand.CreateFromTask(async () =>
         {
             await SubSettingAsync();
+        });
+        SubAddCmd = ReactiveCommand.CreateFromTask(async () =>
+        {
+            await SubAddAsync();
         });
 
         SubUpdateCmd = ReactiveCommand.CreateFromTask(async () =>
@@ -233,6 +252,18 @@ public partial class MainWindowViewModel : MyReactiveObject
         OpenTheFileLocationCmd = ReactiveCommand.CreateFromTask(async () =>
         {
             await OpenTheFileLocation();
+        });
+
+        //Help
+        OpenSetupGuideCmd = ReactiveCommand.CreateFromTask(async () =>
+        {
+            ProcUtils.ProcessStart(Global.SetupGuideUrl);
+            await Task.CompletedTask;
+        });
+        OpenAboutCmd = ReactiveCommand.CreateFromTask(async () =>
+        {
+            ProcUtils.ProcessStart(Global.AppRepoUrl);
+            await Task.CompletedTask;
         });
 
         ReloadCmd = ReactiveCommand.CreateFromTask(async () =>
@@ -555,6 +586,16 @@ public partial class MainWindowViewModel : MyReactiveObject
     {
         var subSettingViewModel = new SubSettingViewModel();
         if (await AppManager.Instance.WindowDialog.ShowDialogAsync(subSettingViewModel) == true)
+        {
+            await RefreshSubscriptions();
+        }
+    }
+
+    private async Task SubAddAsync()
+    {
+        // Same flow as ProfilesViewModel.AddSubCmd / SubSettingViewModel.SubAddCmd: edit window for a new item.
+        var subEditViewModel = new SubEditViewModel(new SubItem());
+        if (await AppManager.Instance.WindowDialog.ShowDialogAsync(subEditViewModel) == true)
         {
             await RefreshSubscriptions();
         }

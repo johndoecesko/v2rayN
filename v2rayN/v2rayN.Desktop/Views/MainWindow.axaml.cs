@@ -60,8 +60,17 @@ public partial class MainWindow : WindowBase<MainWindowViewModel>
             this.BindCommand(ViewModel, vm => vm.AddServerViaScanCmd, v => v.menuAddServerViaScan).DisposeWith(disposables);
             this.BindCommand(ViewModel, vm => vm.AddServerViaImageCmd, v => v.menuAddServerViaImage).DisposeWith(disposables);
 
+            //connection indicator (state lives in StatusBarViewModel)
+            this.BindCommand(ViewModel, vm => vm.ToggleConnectionCmd, v => v.btnConnection).DisposeWith(disposables);
+            this.OneWayBind(ViewModel, vm => vm.StatusBarViewModel.ConnectionStateDisplay, v => v.txtConnectionState.Text).DisposeWith(disposables);
+            this.OneWayBind(ViewModel, vm => vm.StatusBarViewModel.ConnectionSummaryDisplay, v => v.txtConnectionSummary.Text).DisposeWith(disposables);
+            this.OneWayBind(ViewModel, vm => vm.StatusBarViewModel.RunningInfoDisplay, v => v.txtConnectionInfo.Text).DisposeWith(disposables);
+            this.OneWayBind(ViewModel, vm => vm.StatusBarViewModel.BlConnected, v => v.dotConnected.IsVisible).DisposeWith(disposables);
+            this.OneWayBind(ViewModel, vm => vm.StatusBarViewModel.BlConnected, v => v.dotDisconnected.IsVisible, connected => !connected).DisposeWith(disposables);
+
             //sub
             this.BindCommand(ViewModel, vm => vm.SubSettingCmd, v => v.menuSubSetting).DisposeWith(disposables);
+            this.BindCommand(ViewModel, vm => vm.SubAddCmd, v => v.menuSubAddNew).DisposeWith(disposables);
             this.BindCommand(ViewModel, vm => vm.SubUpdateCmd, v => v.menuSubUpdate).DisposeWith(disposables);
             this.BindCommand(ViewModel, vm => vm.SubUpdateViaProxyCmd, v => v.menuSubUpdateViaProxy).DisposeWith(disposables);
             this.BindCommand(ViewModel, vm => vm.SubGroupUpdateCmd, v => v.menuSubGroupUpdate).DisposeWith(disposables);
@@ -79,6 +88,10 @@ public partial class MainWindow : WindowBase<MainWindowViewModel>
             this.BindCommand(ViewModel, vm => vm.RegionalPresetDefaultCmd, v => v.menuRegionalPresetsDefault).DisposeWith(disposables);
             this.BindCommand(ViewModel, vm => vm.RegionalPresetRussiaCmd, v => v.menuRegionalPresetsRussia).DisposeWith(disposables);
             this.BindCommand(ViewModel, vm => vm.RegionalPresetIranCmd, v => v.menuRegionalPresetsIran).DisposeWith(disposables);
+
+            //help
+            this.BindCommand(ViewModel, vm => vm.OpenSetupGuideCmd, v => v.menuSetupGuide).DisposeWith(disposables);
+            this.BindCommand(ViewModel, vm => vm.OpenAboutCmd, v => v.menuAbout).DisposeWith(disposables);
 
             this.BindCommand(ViewModel, vm => vm.ReloadCmd, v => v.menuReload).DisposeWith(disposables);
             this.OneWayBind(ViewModel, vm => vm.BlReloadEnabled, v => v.menuReload.IsEnabled).DisposeWith(disposables);
@@ -586,7 +599,7 @@ public partial class MainWindow : WindowBase<MainWindowViewModel>
                 Header = string.Format(ResUI.menuWebsiteItem, it.CoreType.ToString().Replace("_", " ")).UpperFirstChar()
             };
             item.Click += MenuItem_Click;
-            menuHelp.Items.Add(item);
+            menuCoreWebsites.Items.Add(item);
         }
     }
 
