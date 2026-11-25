@@ -245,8 +245,8 @@ internal sealed class RegionalPresetStager(
         // Keep in sync with ConfigDbHandler.InitBuiltinRouting; the first entry becomes the default
         var defaults = new[]
         {
-            (Name: "Обход России(RU direct)", Resource: "ru", DomainStrategy: Global.IPIfNonMatch),
-            (Name: "Всё через прокси(Global)", Resource: "global", DomainStrategy: string.Empty),
+            (Name: ConfigDbHandler.RuRoutingRemarks, Resource: "ru", DomainStrategy: Global.IPIfNonMatch),
+            (Name: "Всё через прокси", Resource: "global", DomainStrategy: string.Empty),
         };
         var builtins = defaults.Select((entry, index) =>
         {

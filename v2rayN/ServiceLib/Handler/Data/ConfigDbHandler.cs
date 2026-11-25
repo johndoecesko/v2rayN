@@ -2460,7 +2460,7 @@ public static class ConfigDbHandler
         //Global
         var item1 = new RoutingItem()
         {
-            Remarks = $"{ver}Всё через прокси(Global)",
+            Remarks = $"{ver}Всё через прокси",
             Url = string.Empty,
             Sort = maxSort + 2,
         };
@@ -2474,7 +2474,17 @@ public static class ConfigDbHandler
         return 0;
     }
 
+    /// <summary>Display name of the built-in Russia routing preset.</summary>
+    public const string RuRoutingRemarks = "Российские сайты напрямую";
+
+    /// <summary>Marker of the preset's earlier name ("Обход России(RU direct)").</summary>
     public const string RuRoutingRemarksTag = "(RU direct)";
+
+    public static bool IsRuRoutingPreset(string? remarks)
+    {
+        return remarks != null
+            && (remarks.Contains(RuRoutingRemarksTag) || remarks.EndsWith(RuRoutingRemarks, StringComparison.Ordinal));
+    }
 
     private const string BuiltinRoutingVersionPrefix = "V4-";
 
@@ -2482,7 +2492,7 @@ public static class ConfigDbHandler
     {
         var item = new RoutingItem()
         {
-            Remarks = $"{ver}Обход России{RuRoutingRemarksTag}",
+            Remarks = $"{ver}{RuRoutingRemarks}",
             Url = string.Empty,
             Sort = sort,
             // geoip:ru only matches domain requests when the domain is resolved first

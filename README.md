@@ -1,8 +1,13 @@
 <p align="center"><img src="docs/brand/logo.svg" alt="Tropa" width="128" height="128"></p>
 
-# Tropa — клиент для обхода блокировок на базе v2rayN
+# Tropa — клиент для подключения к собственным серверам на базе v2rayN
 
-**Tropa** («Тропа») — тропа, которая огибает препятствия. Это форк [v2rayN](https://github.com/2dust/v2rayN)
+**Tropa** («Тропа») подключает компьютер к вашему собственному серверу Xray или sing-box.
+Так можно пользоваться зарубежными сервисами, которые ограничивают доступ из России
+из-за санкций, а также защищать соединение в общественных сетях и работать с домашними
+и рабочими ресурсами. Российские сайты при этом открываются напрямую, без сервера.
+
+Это форк [v2rayN](https://github.com/2dust/v2rayN)
 для русскоязычных пользователей: настольный клиент для Windows, Linux и macOS на ядрах
 [Xray](https://github.com/XTLS/Xray-core) и [sing-box](https://github.com/SagerNet/sing-box).
 
@@ -57,9 +62,9 @@ Read the Wiki for usage guides and configuration details.
 
 [https://github.com/2dust/v2rayN/wiki](https://github.com/2dust/v2rayN/wiki)
 
-For Russian users (Variant C — maximum stealth against DPI/blocking): see [`docs/ru-variant-c-stealth.md`](docs/ru-variant-c-stealth.md).
+For Russian-speaking users: recommended connection settings are in [`docs/ru-variant-c-stealth.md`](docs/ru-variant-c-stealth.md).
 
-Для пользователей в РФ (Вариант C — максимальная скрытность от DPI/блокировок): см. [`docs/ru-variant-c-stealth.md`](docs/ru-variant-c-stealth.md).
+Рекомендуемые настройки подключения: [`docs/ru-variant-c-stealth.md`](docs/ru-variant-c-stealth.md).
 
 ---
 

@@ -2,7 +2,7 @@ namespace ServiceLib.Tests.Handler;
 
 public class ForkMigrationsTests
 {
-    private const string RuPresetRemarks = "V4-Обход России(RU direct)";
+    private const string RuPresetRemarks = ForkMigrations.RuRoutingRemarks;
 
     [Test]
     public async Task ApplyFirstRunDefaults_UsesRussiaRegionalPresetSources()
@@ -159,6 +159,21 @@ public class ForkMigrationsTests
         await store.RemovedIds.SequenceEqual(new[] { "black" }).Should().BeTrue();
         await store.AddedSorts.Should().HaveCount(0);
         await store.SavedIds.Should().HaveCount(0);
+        await store.ActiveRemarks().Should().BeEqualTo(RuPresetRemarks);
+    }
+
+    [Test]
+    public async Task MigrateAsync_Step2_RenamesRuPresetFromVersion801()
+    {
+        var config = CreateMigratedConfig(version: 1);
+        var store = new FakeRoutingStore(
+            new() { Id = "ru", Remarks = ForkMigrations.LegacyRuRoutingRemarks, Sort = 1, IsActive = true },
+            new() { Id = "global", Remarks = ForkMigrations.GlobalRoutingRemarks, Sort = 2 });
+
+        await store.MigrateAsync(config);
+
+        await store.AddedSorts.Should().HaveCount(0);
+        await store.DefaultedIds.Should().HaveCount(0);
         await store.ActiveRemarks().Should().BeEqualTo(RuPresetRemarks);
     }
 

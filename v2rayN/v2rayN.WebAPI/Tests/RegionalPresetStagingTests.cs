@@ -579,9 +579,9 @@ public class RegionalPresetStagingTests
 
         await staged.Routing.IsBuiltinFallback.Should().BeTrue();
         await staged.Routing.Items.Count.Should().BeEqualTo(2);
-        await staged.Routing.Items[0].Remarks.Should().BeEqualTo("V4-Обход России(RU direct)");
+        await staged.Routing.Items[0].Remarks.Should().BeEqualTo("V4-Российские сайты напрямую");
         await staged.Routing.DefaultRemarks.Should().BeEqualTo(staged.Routing.Items[0].Remarks);
-        await staged.Routing.Items[1].Remarks.Should().BeEqualTo("V4-Всё через прокси(Global)");
+        await staged.Routing.Items[1].Remarks.Should().BeEqualTo("V4-Всё через прокси");
         await staged.Routing.Items.All(item => item.RuleNum > 0).Should().BeTrue();
         await staged.Routing.ExistingDefaultItemId.Should().BeNull();
     }
@@ -601,7 +601,7 @@ public class RegionalPresetStagingTests
         await config.ConstItem.RouteRulesTemplateSourceUrl.Should().BeEqualTo(staged.RouteRulesTemplateSourceUrl);
         // ... and without network the routing falls back to the embedded RU preset as default.
         await staged.Routing.IsBuiltinFallback.Should().BeTrue();
-        await staged.Routing.DefaultRemarks.Should().BeEqualTo("V4-Обход России(RU direct)");
+        await staged.Routing.DefaultRemarks.Should().BeEqualTo("V4-Российские сайты напрямую");
     }
 
     [Test]

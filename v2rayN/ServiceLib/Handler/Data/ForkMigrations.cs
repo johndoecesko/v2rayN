@@ -24,7 +24,11 @@ public static class ForkMigrations
 
     /// <summary>Upstream builtin "Global" routing item, renamed by migration step 2.</summary>
     public const string LegacyGlobalRoutingRemarks = "V4-全局(Global)";
-    public const string GlobalRoutingRemarks = "V4-Всё через прокси(Global)";
+    public const string GlobalRoutingRemarks = "V4-Всё через прокси";
+
+    /// <summary>Name of the RU preset in 8.0.1, renamed by migration step 2.</summary>
+    public const string LegacyRuRoutingRemarks = "V4-Обход России(RU direct)";
+    public const string RuRoutingRemarks = "V4-" + ConfigDbHandler.RuRoutingRemarks;
 
     /// <summary>
     /// Brand-new install (no config file yet): behave as if the user had picked the Russia
@@ -168,6 +172,15 @@ public static class ForkMigrations
             item.Remarks = GlobalRoutingRemarks;
             await saveRoutingItem(item);
         }
+
+        var ruItems = (await loadRoutingItems())
+            .Where(item => item.Remarks == LegacyRuRoutingRemarks)
+            .ToList();
+        foreach (var item in ruItems)
+        {
+            item.Remarks = RuRoutingRemarks;
+            await saveRoutingItem(item);
+        }
     }
 
     public static bool IsObsoleteBuiltinRouting(RoutingItem item)
@@ -177,7 +190,7 @@ public static class ForkMigrations
 
     private static RoutingItem? FindRuRoutingPreset(IReadOnlyList<RoutingItem> routingItems)
     {
-        return routingItems.FirstOrDefault(item => item.Remarks?.Contains(ConfigDbHandler.RuRoutingRemarksTag) == true);
+        return routingItems.FirstOrDefault(item => ConfigDbHandler.IsRuRoutingPreset(item.Remarks));
     }
 
     /// <summary>
@@ -187,6 +200,6 @@ public static class ForkMigrations
     public static bool NeedsRuRoutingPreset(IReadOnlyList<RoutingItem> routingItems)
     {
         return routingItems.Any(item => !item.Locked)
-            && !routingItems.Any(item => item.Remarks?.Contains(ConfigDbHandler.RuRoutingRemarksTag) == true);
+            && !routingItems.Any(item => ConfigDbHandler.IsRuRoutingPreset(item.Remarks));
     }
 }
