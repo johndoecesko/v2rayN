@@ -5624,7 +5624,7 @@ namespace ServiceLib.Resx {
                 return ResourceManager.GetString("XdriveService", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   查找类似 Connected 的本地化字符串。
         /// </summary>
@@ -5633,7 +5633,7 @@ namespace ServiceLib.Resx {
                 return ResourceManager.GetString("TbConnected", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   查找类似 Disconnected 的本地化字符串。
         /// </summary>
@@ -5642,7 +5642,7 @@ namespace ServiceLib.Resx {
                 return ResourceManager.GetString("TbDisconnected", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   查找类似 Click to turn the system proxy on or off 的本地化字符串。
         /// </summary>
@@ -5651,7 +5651,7 @@ namespace ServiceLib.Resx {
                 return ResourceManager.GetString("TbConnectionToggleTip", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   查找类似 More 的本地化字符串。
         /// </summary>
@@ -5660,7 +5660,7 @@ namespace ServiceLib.Resx {
                 return ResourceManager.GetString("menuMore", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   查找类似 Subscriptions 的本地化字符串。
         /// </summary>
@@ -5669,7 +5669,7 @@ namespace ServiceLib.Resx {
                 return ResourceManager.GetString("menuSubscriptions", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   查找类似 Paste from clipboard 的本地化字符串。
         /// </summary>
@@ -5678,7 +5678,7 @@ namespace ServiceLib.Resx {
                 return ResourceManager.GetString("menuAddServerFromClipboard", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   查找类似 Scan QR code 的本地化字符串。
         /// </summary>
@@ -5687,7 +5687,7 @@ namespace ServiceLib.Resx {
                 return ResourceManager.GetString("menuAddServerScanQr", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   查找类似 From file or image 的本地化字符串。
         /// </summary>
@@ -5696,7 +5696,7 @@ namespace ServiceLib.Resx {
                 return ResourceManager.GetString("menuAddServerFromFile", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   查找类似 Manually 的本地化字符串。
         /// </summary>
@@ -5705,7 +5705,7 @@ namespace ServiceLib.Resx {
                 return ResourceManager.GetString("menuAddServerManual", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   查找类似 Advanced 的本地化字符串。
         /// </summary>
@@ -5714,7 +5714,7 @@ namespace ServiceLib.Resx {
                 return ResourceManager.GetString("menuAddServerAdvanced", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   查找类似 Update all 的本地化字符串。
         /// </summary>
@@ -5723,7 +5723,7 @@ namespace ServiceLib.Resx {
                 return ResourceManager.GetString("menuSubUpdateAll", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   查找类似 Update all via proxy 的本地化字符串。
         /// </summary>
@@ -5732,7 +5732,7 @@ namespace ServiceLib.Resx {
                 return ResourceManager.GetString("menuSubUpdateAllViaProxy", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   查找类似 Update current group 的本地化字符串。
         /// </summary>
@@ -5741,7 +5741,7 @@ namespace ServiceLib.Resx {
                 return ResourceManager.GetString("menuSubGroupUpdateCurrent", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   查找类似 Update current group via proxy 的本地化字符串。
         /// </summary>
@@ -5750,7 +5750,7 @@ namespace ServiceLib.Resx {
                 return ResourceManager.GetString("menuSubGroupUpdateCurrentViaProxy", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   查找类似 Add subscription 的本地化字符串。
         /// </summary>
@@ -5759,7 +5759,7 @@ namespace ServiceLib.Resx {
                 return ResourceManager.GetString("menuSubAddNew", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   查找类似 Manage… 的本地化字符串。
         /// </summary>
@@ -5768,7 +5768,7 @@ namespace ServiceLib.Resx {
                 return ResourceManager.GetString("menuSubManage", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   查找类似 Update 的本地化字符串。
         /// </summary>
@@ -5777,7 +5777,7 @@ namespace ServiceLib.Resx {
                 return ResourceManager.GetString("menuSubItemUpdate", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   查找类似 Update via proxy 的本地化字符串。
         /// </summary>
@@ -5786,7 +5786,7 @@ namespace ServiceLib.Resx {
                 return ResourceManager.GetString("menuSubItemUpdateViaProxy", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   查找类似 Delete subscription "{0}" together with its servers? 的本地化字符串。
         /// </summary>
@@ -5795,7 +5795,7 @@ namespace ServiceLib.Resx {
                 return ResourceManager.GetString("menuSubDeleteTips", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   查找类似 General 的本地化字符串。
         /// </summary>
@@ -5804,7 +5804,7 @@ namespace ServiceLib.Resx {
                 return ResourceManager.GetString("menuSettingsGeneral", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   查找类似 Routing 的本地化字符串。
         /// </summary>
@@ -5813,7 +5813,7 @@ namespace ServiceLib.Resx {
                 return ResourceManager.GetString("menuSettingsRouting", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   查找类似 DNS 的本地化字符串。
         /// </summary>
@@ -5822,7 +5822,7 @@ namespace ServiceLib.Resx {
                 return ResourceManager.GetString("menuSettingsDns", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   查找类似 Update Russia rules 的本地化字符串。
         /// </summary>
@@ -5831,7 +5831,7 @@ namespace ServiceLib.Resx {
                 return ResourceManager.GetString("menuUpdateRuRules", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   查找类似 Backup 的本地化字符串。
         /// </summary>
@@ -5840,7 +5840,7 @@ namespace ServiceLib.Resx {
                 return ResourceManager.GetString("menuSettingsBackup", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   查找类似 For advanced users 的本地化字符串。
         /// </summary>
@@ -5849,7 +5849,7 @@ namespace ServiceLib.Resx {
                 return ResourceManager.GetString("menuAdvancedSettings", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   查找类似 Setup guide 的本地化字符串。
         /// </summary>
@@ -5858,7 +5858,7 @@ namespace ServiceLib.Resx {
                 return ResourceManager.GetString("menuSetupGuide", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   查找类似 Open program folder 的本地化字符串。
         /// </summary>
@@ -5867,7 +5867,7 @@ namespace ServiceLib.Resx {
                 return ResourceManager.GetString("menuOpenProgramFolder", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   查找类似 About 的本地化字符串。
         /// </summary>
@@ -5876,7 +5876,7 @@ namespace ServiceLib.Resx {
                 return ResourceManager.GetString("menuAbout", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   查找类似 Core websites 的本地化字符串。
         /// </summary>
