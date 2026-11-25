@@ -490,7 +490,9 @@ jobs:
   native-riscv64:
     name: Native API build (linux-riscv64)
     needs: identity
-    if: needs.identity.outputs.release == 'true'
+    # The community RISE riscv runner only exists for the upstream repository; forks skip this job
+    # and release-assets treats linux-riscv64 as an optional package there.
+    if: needs.identity.outputs.release == 'true' && github.repository == '2dust/v2rayN'
     runs-on: ubuntu-24.04-riscv
     container: debian:13
     env:
@@ -831,11 +833,18 @@ jobs:
           run_cmd "cd /root/v2rayN-src && git config --global --add safe.directory /root/v2rayN-src"
           send -- "bash /workspace/webapi-loong-run.sh\r"
           expect {
-            -re "__WEBAPI_DONE__0" { send -- "poweroff\r" }
-            -re "__WEBAPI_DONE__" { exit 1 }
+            -re {__WEBAPI_DONE__([0-9]+)\r?\n} {
+              # Match the whole marker line: a chunk ending in "__WEBAPI_DONE__" before the
+              # exit digit arrives must not be mistaken for a failure.
+              if {$expect_out(1,string) ne "0"} { exit 1 }
+              send -- "poweroff\r"
+            }
             timeout { exit 1 }
             eof { exit 1 }
           }
+          # Let the VM shut down (and virtiofs flush) before expect closes QEMU.
+          set timeout 180
+          expect eof
           EOF
       - name: Verify the loongarch64 publish tree
         shell: bash
@@ -899,7 +908,8 @@ jobs:
 
   release-assets:
     name: Assemble API release assets
-    if: needs.identity.outputs.release == 'true'
+    # native-riscv64 is skipped in forks; still refuse to release when any needed job failed or was cancelled.
+    if: ${{ !cancelled() && !contains(needs.*.result, 'failure') && !contains(needs.*.result, 'cancelled') && needs.identity.outputs.release == 'true' }}
     needs: [identity, verify, windows, windows-arm64, native, native-riscv64, native-loong64, container]
     runs-on: ubuntu-24.04
     steps:
@@ -922,10 +932,12 @@ jobs:
             --commit "${{ github.sha }}" \
             --build-date "${{ needs.identity.outputs.build_date }}" \
             --dist release-assets \
+            --optional-rid linux-riscv64 \
             --output release-assets/WebAPI-update.json
           python3 v2rayN/v2rayN.WebAPI/Scripts/web-update-manifest.py verify \
             --manifest release-assets/WebAPI-update.json \
             --dist release-assets \
+            --optional-rid linux-riscv64 \
             --repository "${{ github.repository }}"
       - name: Smoke-test full API ZIP
         run: bash v2rayN/v2rayN.WebAPI/Tests/Integration/test-full-zip-runtime.sh release-assets/v2rayN-linux-64-WebAPI.zip

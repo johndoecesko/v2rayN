@@ -181,6 +181,32 @@ if python3 "$web_root/Scripts/web-update-manifest.py" verify \
   exit 1
 fi
 
+# Optional RIDs: absent files are skipped, strictness is unchanged without the option.
+mkdir "$temporary/dist-no-riscv64"
+for file in "$temporary/dist"/*; do
+  case "$(basename "$file")" in *linux-riscv64*) ;; *) cp "$file" "$temporary/dist-no-riscv64/" ;; esac
+done
+rm -f "$temporary/dist-no-riscv64/WebAPI-update.json"
+if python3 "$web_root/Scripts/web-update-manifest.py" write --version 7.25.3 --repository johndoecesko/v2rayN \
+  --commit 0123456789abcdef --build-date 2026-09-28T00:00:00Z --dist "$temporary/dist-no-riscv64" \
+  --output "$temporary/dist-no-riscv64/WebAPI-update.json" 2>/dev/null; then
+  echo "Expected a missing riscv64 package to be rejected without --optional-rid" >&2
+  exit 1
+fi
+python3 "$web_root/Scripts/web-update-manifest.py" write --version 7.25.3 --repository johndoecesko/v2rayN \
+  --commit 0123456789abcdef --build-date 2026-09-28T00:00:00Z --dist "$temporary/dist-no-riscv64" \
+  --optional-rid linux-riscv64 --output "$temporary/dist-no-riscv64/WebAPI-update.json"
+python3 "$web_root/Scripts/web-update-manifest.py" verify --manifest "$temporary/dist-no-riscv64/WebAPI-update.json" \
+  --dist "$temporary/dist-no-riscv64" --repository johndoecesko/v2rayN --version 7.25.3 --optional-rid linux-riscv64
+python3 - "$temporary/dist-no-riscv64/WebAPI-update.json" <<'PY'
+import json, sys
+rids = {p["rid"] for p in json.load(open(sys.argv[1]))["packages"]}
+assert rids == {"linux-x64", "linux-arm64", "linux-loongarch64", "win-x64", "win-arm64"}, rids
+PY
+# Present optional files are still required and verified normally.
+python3 "$web_root/Scripts/web-update-manifest.py" verify --manifest "$temporary/dist/WebAPI-update.json" \
+  --dist "$temporary/dist" --repository johndoecesko/v2rayN --version 7.25.3 --optional-rid linux-riscv64
+
 python3 - "$temporary/dist/WebAPI-update.json" "$update_x64" "$update_arm64" "$update_riscv64" "$update_loong64" "$update_windows" "$update_windows_arm64" <<'PY'
 import hashlib
 import json
