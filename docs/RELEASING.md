@@ -51,3 +51,33 @@
 получения списка релизов). Ядра (Xray, sing-box, mihomo и др.), geo-файлы и
 rule-set по-прежнему скачиваются из их собственных репозиториев и от релизов
 форка не зависят.
+
+## Нумерация версий
+
+Проверка обновлений понимает только `X.Y.Z` и сравнивает числа. Форк
+продолжает нумерацию upstream и увеличивает последнее число: `8.0.1`,
+`8.0.2`… Версия задаётся в `v2rayN/Directory.Build.props` (`<Version>`),
+тег релиза совпадает с ней (без `v`).
+
+## GPG-ключ для подписи (один раз)
+
+Workflow подписывает файлы релиза и публикует открытый ключ. Ключ нужен
+**без пароля** (подпись идёт в пакетном режиме). На своём компьютере:
+
+```bash
+gpg --batch --passphrase '' --quick-gen-key "v2rayN RU fork <ваш@email>" ed25519 sign 2y
+gpg --list-secret-keys --keyid-format long          # запомните ID ключа
+gpg --armor --export-secret-keys <ID> > private.asc
+```
+
+Затем на GitHub: **Settings → Secrets and variables → Actions → New repository
+secret**, имя `GPG_PRIVATE_KEY`, значение — всё содержимое `private.asc`
+(включая строки `-----BEGIN/END PGP PRIVATE KEY BLOCK-----`). После этого
+удалите `private.asc` и храните резервную копию ключа в надёжном месте.
+
+## Выпуск релиза
+
+1. Поднимите `<Version>` в `v2rayN/Directory.Build.props` и слейте в master.
+2. **Actions → release all platforms → Run workflow**, в поле `release_tag`
+   укажите ту же версию (например `8.0.1`).
+3. Дождитесь окончания всех сборок, проверьте файлы в Releases.
