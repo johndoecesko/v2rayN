@@ -49,6 +49,8 @@ public static class ConfigTextHandler
             }
         }
 
+        // A missing (or unreadable) config file means a brand-new install
+        var isNewConfig = config == null;
         config ??= new Config();
 
         config.CoreBasicItem ??= new()
@@ -149,6 +151,11 @@ public static class ConfigTextHandler
         }
 
         config.ConstItem ??= new ConstItem();
+        if (isNewConfig)
+        {
+            // First run uses the Russia regional preset sources (offline-safe; see ForkMigrations)
+            ForkMigrations.ApplyFirstRunDefaults(config);
+        }
 
         config.SimpleDNSItem ??= ConfigDbHandler.InitBuiltinSimpleDNS();
         config.SimpleDNSItem.BlockAAAAQuery ??= false;

@@ -2419,7 +2419,7 @@ public static class ConfigDbHandler
     /// <returns>0 if successful</returns>
     public static async Task<int> InitBuiltinRouting(bool blImportAdvancedRules = false)
     {
-        var ver = "V4-";
+        var ver = BuiltinRoutingVersionPrefix;
         var items = await ConfigDbQuery.RoutingItems();
 
         //TODO Temporary code to be removed later
@@ -2444,11 +2444,8 @@ public static class ConfigDbHandler
                 CurrentConfig.RoutingBasicItem.RoutingIndexId = string.Empty;
             }
 
-            // Migration: users upgrading from upstream do not have the RU preset yet
-            if (!items.Any(t => t.Remarks?.Contains(RuRoutingRemarksTag) == true))
-            {
-                await AddRuRoutingItem(ver, items.Count + 1);
-            }
+            // Users upgrading from upstream get the RU preset once via ForkMigrations
+            // (see MigrateFork), so deleting it is respected on later starts.
 
             return 0;
         }
@@ -2492,7 +2489,9 @@ public static class ConfigDbHandler
         return 0;
     }
 
-    private const string RuRoutingRemarksTag = "(RU direct)";
+    public const string RuRoutingRemarksTag = "(RU direct)";
+
+    private const string BuiltinRoutingVersionPrefix = "V4-";
 
     private static async Task<RoutingItem> AddRuRoutingItem(string ver, int sort)
     {
@@ -2800,6 +2799,26 @@ public static class ConfigDbHandler
     }
 
     #endregion Regional Presets
+
+    #region Fork migrations
+
+    /// <summary>
+    /// Run the fork's one-time, versioned migrations (see <see cref="ForkMigrations"/>)
+    /// and persist the config when anything changed.
+    /// </summary>
+    public static async Task MigrateFork()
+    {
+        var changed = await ForkMigrations.MigrateAsync(
+            CurrentConfig,
+            async () => await ConfigDbQuery.RoutingItems() ?? [],
+            async sort => await AddRuRoutingItem(BuiltinRoutingVersionPrefix, sort));
+        if (changed)
+        {
+            await SaveConfig();
+        }
+    }
+
+    #endregion Fork migrations
 
     #region SqliteHelper
 
