@@ -169,7 +169,8 @@ public partial class OptionSettingWindow
             {
                 files.AddRange(Directory.GetFiles(path, pattern));
             }
-            var culture = _config.UiItem.CurrentLanguage == Global.Languages.First() ? "zh-cn" : "en-us";
+            // Languages.First() used to be zh-Hans; in this build it is "ru"
+            var culture = _config.UiItem.CurrentLanguage.StartsWith("zh", StringComparison.OrdinalIgnoreCase) ? "zh-cn" : CultureInfo.CreateSpecificCulture(_config.UiItem.CurrentLanguage).Name;
             var culture2 = "en-us";
             foreach (var ttf in files)
             {

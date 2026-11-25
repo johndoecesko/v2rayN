@@ -142,9 +142,10 @@ public static class ConfigTextHandler
             }
         }
 
-        if (config.UiItem.CurrentLanguage.IsNullOrEmpty())
+        // Only Russian is shipped: also migrate configs that still point to a removed language
+        if (config.UiItem.CurrentLanguage.IsNullOrEmpty() || !Global.Languages.Contains(config.UiItem.CurrentLanguage))
         {
-            config.UiItem.CurrentLanguage = "ru";
+            config.UiItem.CurrentLanguage = Global.Languages.First();
         }
 
         config.ConstItem ??= new ConstItem();

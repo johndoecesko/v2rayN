@@ -467,12 +467,14 @@ public partial class CoreConfigSingboxService
                 tls.fragment = true;
                 tls.record_fragment = true;
             }
-            if (_node.Fingerprint.IsNotEmpty())
+            // Fall back to the global default fingerprint like the Xray builder does
+            var fingerprint = _node.Fingerprint.IsNullOrEmpty() ? _config.CoreBasicItem.DefFingerprint : _node.Fingerprint;
+            if (fingerprint.IsNotEmpty())
             {
                 tls.utls = new Utls4Sbox()
                 {
                     enabled = true,
-                    fingerprint = _node.Fingerprint.IsNullOrEmpty() ? _config.CoreBasicItem.DefFingerprint : _node.Fingerprint
+                    fingerprint = fingerprint
                 };
             }
             if (_node.StreamSecurity == Global.StreamSecurity)

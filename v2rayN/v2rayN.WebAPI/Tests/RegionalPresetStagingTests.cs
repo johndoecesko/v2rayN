@@ -578,8 +578,8 @@ public class RegionalPresetStagingTests
         var staged = await stager.StageAsync(EPresetType.Russia, CreateDnsRows(), [], null, CancellationToken.None);
 
         await staged.Routing.IsBuiltinFallback.Should().BeTrue();
-        await staged.Routing.Items.Count.Should().BeEqualTo(3);
-        await staged.Routing.Items[0].Remarks.Should().BeEqualTo("V4-绕过大陆(Whitelist)");
+        await staged.Routing.Items.Count.Should().BeEqualTo(4);
+        await staged.Routing.Items[0].Remarks.Should().BeEqualTo("V4-Обход России(RU direct)");
         await staged.Routing.DefaultRemarks.Should().BeEqualTo(staged.Routing.Items[0].Remarks);
         await staged.Routing.Items.All(item => item.RuleNum > 0).Should().BeTrue();
         await staged.Routing.ExistingDefaultItemId.Should().BeNull();
