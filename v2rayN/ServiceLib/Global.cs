@@ -536,6 +536,8 @@ public class Global
 
     public static readonly List<LanguageOption> LanguageOptions =
     [
+        // This build ships the Russian UI only. The other upstream .resx files are kept
+        // untouched so that merges from 2dust/v2rayN stay conflict-free.
         new("ru", "Русский")
     ];
 
