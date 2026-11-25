@@ -13,6 +13,10 @@ Usage:
   web-update-manifest.py write --version 7.25.4 --repository johndoecesko/v2rayN --commit <sha> \
       --build-date 2026-09-28T00:00:00Z --dist dist --output dist/WebAPI-update.json
   web-update-manifest.py verify --manifest dist/WebAPI-update.json --dist dist [--repository johndoecesko/v2rayN]
+
+`--optional-rid RID` (repeatable) lets a RID be omitted when none of its assets are in --dist (for
+example linux-riscv64 in forks without a RISC-V runner). If any of its files are present the RID is
+required and verified like every other one.
 """
 
 from __future__ import annotations
@@ -90,8 +94,24 @@ def asset_url(repository: str, version: str, asset: str) -> str:
     return f"https://github.com/{repository}/releases/download/{version}/{asset}"
 
 
-def require_release_files(dist: Path) -> None:
-    for rid in ASSETS:
+def active_rids(dist: Path, optional: frozenset[str] = frozenset()) -> list[str]:
+    """RIDs the release must cover: all of them, minus optional RIDs with no files in dist.
+
+    An optional RID with only one of its two files present stays active, so the partial
+    release is still reported as a missing asset instead of being silently dropped.
+    """
+    for rid in optional:
+        if rid not in ASSETS:
+            fail(f"unknown optional runtime identifier: {rid}")
+    return [
+        rid for rid in ASSETS
+        if rid not in optional
+        or any((dist / name).exists() for name in (full_asset_name(rid), app_asset_name(rid)))
+    ]
+
+
+def require_release_files(dist: Path, optional: frozenset[str] = frozenset()) -> None:
+    for rid in active_rids(dist, optional):
         for asset in (full_asset_name(rid), app_asset_name(rid)):
             path = dist / asset
             if not path.is_file() or path.stat().st_size == 0:
@@ -218,7 +238,8 @@ def package_entry(dist: Path, repository: str, version: str, rid: str) -> dict:
     }
 
 
-def build_manifest(dist: Path, version: str, repository: str, commit: str, build_date: str) -> dict:
+def build_manifest(dist: Path, version: str, repository: str, commit: str, build_date: str,
+                   optional: frozenset[str] = frozenset()) -> dict:
     if not VERSION_RE.match(version):
         fail(f"official release versions must be x.y.z, got: {version}")
     if not REPOSITORY_RE.match(repository):
@@ -227,17 +248,18 @@ def build_manifest(dist: Path, version: str, repository: str, commit: str, build
         fail("the manifest requires a real commit identity")
     if not build_date or build_date == "unknown":
         fail("the manifest requires a real build date")
-    require_release_files(dist)
+    require_release_files(dist, optional)
     return {
         "product": PRODUCT,
         "version": version,
         "commit": commit,
         "buildDate": build_date,
-        "packages": [package_entry(dist, repository, version, rid) for rid in ASSETS],
+        "packages": [package_entry(dist, repository, version, rid) for rid in active_rids(dist, optional)],
     }
 
 
-def verify_manifest(manifest_path: Path, dist: Path, repository: str | None, version: str | None = None) -> None:
+def verify_manifest(manifest_path: Path, dist: Path, repository: str | None, version: str | None = None,
+                    optional: frozenset[str] = frozenset()) -> None:
     try:
         manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError) as exc:
@@ -255,14 +277,15 @@ def verify_manifest(manifest_path: Path, dist: Path, repository: str | None, ver
         fail(f"{manifest_path} has no build date")
 
     packages = manifest.get("packages")
-    if not isinstance(packages, list) or len(packages) != len(ASSETS):
-        fail(f"{manifest_path} must contain exactly {len(ASSETS)} packages")
+    expected_rids = active_rids(dist, optional)
+    if not isinstance(packages, list) or len(packages) != len(expected_rids):
+        fail(f"{manifest_path} must contain exactly {len(expected_rids)} packages")
     by_rid = {}
     for package in packages:
         if not isinstance(package, dict):
             fail(f"{manifest_path} contains a non-object package entry")
         rid = package.get("rid")
-        if rid not in ASSETS:
+        if rid not in expected_rids:
             fail(f"{manifest_path} contains an unsupported runtime identifier: {rid!r}")
         if rid in by_rid:
             fail(f"{manifest_path} contains duplicate runtime identifiers")
@@ -288,23 +311,25 @@ def verify_manifest(manifest_path: Path, dist: Path, repository: str | None, ver
         verify_app_archive_identity(path, rid, manifest_version, manifest["commit"], manifest["buildDate"])
         by_rid[rid] = package
 
-    for rid in ASSETS:
+    for rid in expected_rids:
         if rid not in by_rid:
             fail(f"{manifest_path} is missing runtime {rid}")
-    require_release_files(dist)
+    require_release_files(dist, optional)
 
 
 def write_manifest(args: argparse.Namespace) -> None:
     dist = Path(args.dist)
-    manifest = build_manifest(dist, args.version, args.repository, args.commit, args.build_date)
+    optional = frozenset(args.optional_rid)
+    manifest = build_manifest(dist, args.version, args.repository, args.commit, args.build_date, optional)
     output = Path(args.output)
     output.write_text(json.dumps(manifest, separators=(",", ":")) + "\n", encoding="utf-8")
-    verify_manifest(output, dist, args.repository, args.version)
+    verify_manifest(output, dist, args.repository, args.version, optional)
     print(f"Wrote {output} for {PRODUCT} {args.version} ({args.repository})")
 
 
 def verify_command(args: argparse.Namespace) -> None:
-    verify_manifest(Path(args.manifest), Path(args.dist), args.repository, args.version)
+    verify_manifest(Path(args.manifest), Path(args.dist), args.repository, args.version,
+                    frozenset(args.optional_rid))
     print(f"Verified {args.manifest}")
 
 
@@ -319,6 +344,8 @@ def main(argv: list[str]) -> None:
     write_parser.add_argument("--build-date", required=True)
     write_parser.add_argument("--dist", required=True)
     write_parser.add_argument("--output", required=True)
+    write_parser.add_argument("--optional-rid", action="append", default=[], metavar="RID",
+                           help="runtime identifier whose assets may be absent from --dist (repeatable)")
     write_parser.set_defaults(func=write_manifest)
 
     verify_parser = subparsers.add_parser("verify", help="verify WebAPI-update.json against the packaged assets")
@@ -326,6 +353,8 @@ def main(argv: list[str]) -> None:
     verify_parser.add_argument("--dist", required=True)
     verify_parser.add_argument("--repository")
     verify_parser.add_argument("--version", help="require the manifest to match this release version")
+    verify_parser.add_argument("--optional-rid", action="append", default=[], metavar="RID",
+                           help="runtime identifier whose assets may be absent from --dist (repeatable)")
     verify_parser.set_defaults(func=verify_command)
 
     args = parser.parse_args(argv)
