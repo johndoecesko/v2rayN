@@ -1,3 +1,20 @@
+<p align="center"><img src="docs/brand/logo.svg" alt="Tropa" width="128" height="128"></p>
+
+# Tropa — клиент для обхода блокировок на базе v2rayN
+
+**Tropa** («Тропа») — тропа, которая огибает препятствия. Это форк [v2rayN](https://github.com/2dust/v2rayN)
+для русскоязычных пользователей: настольный клиент для Windows, Linux и macOS на ядрах
+[Xray](https://github.com/XTLS/Xray-core) и [sing-box](https://github.com/SagerNet/sing-box).
+
+- Отображаемое имя приложения — Tropa; технические имена (исполняемые файлы, каталоги конфигурации,
+  имена архивов) остаются `v2rayN`, чтобы не ломать обновления и совместимость.
+- Фирменный стиль, цвета и значки: [docs/brand](docs/brand/README.md).
+- Весь код и основная работа принадлежат авторам upstream-проекта
+  [2dust/v2rayN](https://github.com/2dust/v2rayN) и участникам сообщества; лицензия сохранена (см. `LICENSE`).
+  Ниже — оригинальное описание upstream.
+
+---
+
 # v2rayN
 
 ### A GUI client for Windows, Linux and macOS. Support [Xray](https://github.com/XTLS/Xray-core) and [sing-box](https://github.com/SagerNet/sing-box) and [others](https://github.com/2dust/v2rayN/wiki/List-of-supported-cores)
