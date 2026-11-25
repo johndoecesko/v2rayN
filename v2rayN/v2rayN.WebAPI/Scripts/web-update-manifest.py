@@ -10,9 +10,9 @@ Verification also opens each app-only archive and cross-checks its embedded
 and build identity; unrelated files are neither packaged nor touched by self-update.
 
 Usage:
-  web-update-manifest.py write --version 7.25.4 --repository 2dust/v2rayN --commit <sha> \
+  web-update-manifest.py write --version 7.25.4 --repository johndoecesko/v2rayN --commit <sha> \
       --build-date 2026-09-28T00:00:00Z --dist dist --output dist/WebAPI-update.json
-  web-update-manifest.py verify --manifest dist/WebAPI-update.json --dist dist [--repository 2dust/v2rayN]
+  web-update-manifest.py verify --manifest dist/WebAPI-update.json --dist dist [--repository johndoecesko/v2rayN]
 """
 
 from __future__ import annotations
