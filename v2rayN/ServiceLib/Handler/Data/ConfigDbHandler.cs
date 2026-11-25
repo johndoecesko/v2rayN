@@ -2444,6 +2444,12 @@ public static class ConfigDbHandler
                 CurrentConfig.RoutingBasicItem.RoutingIndexId = string.Empty;
             }
 
+            // Migration: users upgrading from upstream do not have the RU preset yet
+            if (!items.Any(t => t.Remarks?.Contains(RuRoutingRemarksTag) == true))
+            {
+                await AddRuRoutingItem(ver, items.Count + 1);
+            }
+
             return 0;
         }
 
@@ -2476,19 +2482,30 @@ public static class ConfigDbHandler
         await AddBatchRoutingRules(item1, EmbedUtils.GetEmbedText(Global.CustomRoutingFileName + "global"));
 
         //Russia (RU direct) — for users in Russia: RU sites/IPs direct, rest via proxy
-        var item4 = new RoutingItem()
-        {
-            Remarks = $"{ver}Обход России(RU direct)",
-            Url = string.Empty,
-            Sort = maxSort + 4,
-        };
-        await AddBatchRoutingRules(item4, EmbedUtils.GetEmbedText(Global.CustomRoutingFileName + "ru"));
+        var item4 = await AddRuRoutingItem(ver, maxSort + 4);
 
         if (!blImportAdvancedRules)
         {
-            await SetDefaultRouting(item2);
+            // This build targets users in Russia, so the RU preset is the default
+            await SetDefaultRouting(item4);
         }
         return 0;
+    }
+
+    private const string RuRoutingRemarksTag = "(RU direct)";
+
+    private static async Task<RoutingItem> AddRuRoutingItem(string ver, int sort)
+    {
+        var item = new RoutingItem()
+        {
+            Remarks = $"{ver}Обход России{RuRoutingRemarksTag}",
+            Url = string.Empty,
+            Sort = sort,
+            // geoip:ru only matches domain requests when the domain is resolved first
+            DomainStrategy = Global.IPIfNonMatch,
+        };
+        await AddBatchRoutingRules(item, EmbedUtils.GetEmbedText(Global.CustomRoutingFileName + "ru"));
+        return item;
     }
 
     /// <summary>
@@ -2743,8 +2760,8 @@ public static class ConfigDbHandler
 
                 if (simpleDnsRussia == null)
                 {
-                    xrayDnsRussia.Enabled = true;
-                    singboxDnsRussia.Enabled = true;
+                    xrayDnsRussia?.Enabled = true;
+                    singboxDnsRussia?.Enabled = true;
                     CurrentConfig.SimpleDNSItem = InitBuiltinSimpleDNS();
                 }
                 else
@@ -2766,8 +2783,8 @@ public static class ConfigDbHandler
 
                 if (simpleDnsIran == null)
                 {
-                    xrayDnsIran.Enabled = true;
-                    singboxDnsIran.Enabled = true;
+                    xrayDnsIran?.Enabled = true;
+                    singboxDnsIran?.Enabled = true;
                     CurrentConfig.SimpleDNSItem = InitBuiltinSimpleDNS();
                 }
                 else

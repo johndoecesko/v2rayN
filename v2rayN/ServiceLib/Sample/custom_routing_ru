@@ -27,38 +27,36 @@
     ]
   },
   {
-    "remarks": "Обход российских IP",
-    "outboundTag": "direct",
-    "ip": [
-      "geoip:ru"
-    ]
-  },
-  {
-    "remarks": "Обход популярных российских доменов",
-    "outboundTag": "direct",
-    "domain": [
-      "domain:yandex.ru",
-      "domain:yandex.net",
-      "domain:yandex.com",
-      "domain:mail.ru",
-      "domain:vk.com",
-      "domain:ok.ru",
-      "domain:sberbank.ru",
-      "domain:gosuslugi.ru",
-      "domain:rt.ru",
-      "domain:beeline.ru",
-      "domain:mts.ru",
-      "domain:megafon.ru"
-    ]
-  },
-  {
-    "remarks": "Обход российских DNS",
+    "remarks": "Обход российских DNS (Яндекс)",
     "outboundTag": "direct",
     "ip": [
       "77.88.8.8",
       "77.88.8.1",
-      "8.8.8.8",
-      "8.8.4.4"
+      "2a02:6b8::feed:0ff",
+      "2a02:6b8:0:1::feed:0ff"
+    ]
+  },
+  {
+    "remarks": "Обход российских доменных зон",
+    "outboundTag": "direct",
+    "domain": [
+      "domain:ru",
+      "domain:su",
+      "domain:xn--p1ai"
+    ]
+  },
+  {
+    "remarks": "Обход российских сервисов",
+    "outboundTag": "direct",
+    "domain": [
+      "geosite:category-ru"
+    ]
+  },
+  {
+    "remarks": "Обход российских IP",
+    "outboundTag": "direct",
+    "ip": [
+      "geoip:ru"
     ]
   }
 ]
