@@ -688,8 +688,8 @@ write_desktop_file() {
   install -m 644 /dev/stdin "$stage/usr/share/applications/v2rayn.desktop" <<'EOF_DESKTOP'
 [Desktop Entry]
 Type=Application
-Name=v2rayN
-Comment=v2rayN for Debian GNU Linux
+Name=Tropa
+Comment=Tropa (v2rayN) for Debian GNU Linux
 Exec=v2rayn
 Icon=v2rayn
 Terminal=false

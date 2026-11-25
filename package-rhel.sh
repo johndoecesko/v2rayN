@@ -766,8 +766,8 @@ install -dm0755 %{buildroot}%{_datadir}/applications
 install -m0644 /dev/stdin %{buildroot}%{_datadir}/applications/v2rayn.desktop << 'EOF'
 [Desktop Entry]
 Type=Application
-Name=v2rayN
-Comment=v2rayN for Red Hat Enterprise Linux
+Name=Tropa
+Comment=Tropa (v2rayN) for Red Hat Enterprise Linux
 Exec=v2rayn
 Icon=v2rayn
 Terminal=false

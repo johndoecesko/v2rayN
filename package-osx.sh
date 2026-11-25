@@ -34,7 +34,7 @@ cat >"$PackagePath/v2rayN.app/Contents/Info.plist" <<-EOF
     <string>hu</string>
   </array>
   <key>CFBundleDisplayName</key>
-  <string>v2rayN</string>
+  <string>Tropa</string>
   <key>CFBundleExecutable</key>
   <string>v2rayN</string>
   <key>CFBundleIconFile</key>
@@ -44,7 +44,7 @@ cat >"$PackagePath/v2rayN.app/Contents/Info.plist" <<-EOF
   <key>CFBundleIdentifier</key>
   <string>2dust.v2rayN</string>
   <key>CFBundleName</key>
-  <string>v2rayN</string>
+  <string>Tropa</string>
   <key>CFBundlePackageType</key>
   <string>APPL</string>
   <key>CFBundleShortVersionString</key>
@@ -60,7 +60,7 @@ cat >"$PackagePath/v2rayN.app/Contents/Info.plist" <<-EOF
 EOF
 
 create-dmg \
-    --volname "v2rayN Installer" \
+    --volname "Tropa Installer" \
     --window-size 700 420 \
     --icon-size 100 \
     --icon "v2rayN.app" 160 185 \
