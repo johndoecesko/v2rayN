@@ -22,13 +22,13 @@ public class WebReleaseChannelTests
     [Test]
     public async Task ReleaseIndexUrlIsBuiltFromTheBuildRepository()
     {
-        await WebReleaseChannel.BuildReleaseIndexUrl("2dust/v2rayN")
-            .Should().BeEqualTo("https://api.github.com/repos/2dust/v2rayN/releases?per_page=100");
-        await WebReleaseChannel.DefaultRepository.Should().BeEqualTo("2dust/v2rayN");
+        await WebReleaseChannel.BuildReleaseIndexUrl("johndoecesko/v2rayN")
+            .Should().BeEqualTo("https://api.github.com/repos/johndoecesko/v2rayN/releases?per_page=100");
+        await WebReleaseChannel.DefaultRepository.Should().BeEqualTo("johndoecesko/v2rayN");
 
         var rejected = false;
         try
-        { _ = WebReleaseChannel.BuildReleaseIndexUrl("2dust/v2rayN/../../evil"); }
+        { _ = WebReleaseChannel.BuildReleaseIndexUrl("johndoecesko/v2rayN/../../evil"); }
         catch (ArgumentException) { rejected = true; }
         await rejected.Should().BeTrue();
         await WebReleaseChannel.IsValidRepository("community-fork/v2rayN").Should().BeTrue();
@@ -38,7 +38,7 @@ public class WebReleaseChannelTests
     [Test]
     public async Task TrustedAssetUrlsMustUseTheBuildRepositoryTagAndAsset()
     {
-        var repository = "2dust/v2rayN";
+        var repository = "johndoecesko/v2rayN";
         var tag = "7.25.3";
         var asset = "v2rayN-linux-64-WebAPI-update.zip";
         var trusted = $"https://github.com/{repository}/releases/download/{tag}/{asset}";
@@ -47,13 +47,13 @@ public class WebReleaseChannelTests
         // A build must not accept the same asset from another repository.
         await WebReleaseChannel.IsTrustedAssetUrl(trusted.Replace(repository, "another-owner/v2rayN", StringComparison.Ordinal),
             repository, tag, asset).Should().BeFalse();
-        await WebReleaseChannel.IsTrustedAssetUrl("http://github.com/2dust/v2rayN/releases/download/7.25.3/" + asset,
+        await WebReleaseChannel.IsTrustedAssetUrl("http://github.com/johndoecesko/v2rayN/releases/download/7.25.3/" + asset,
             repository, tag, asset).Should().BeFalse();
-        await WebReleaseChannel.IsTrustedAssetUrl("https://example.com/2dust/v2rayN/releases/download/7.25.3/" + asset,
+        await WebReleaseChannel.IsTrustedAssetUrl("https://example.com/johndoecesko/v2rayN/releases/download/7.25.3/" + asset,
             repository, tag, asset).Should().BeFalse();
         await WebReleaseChannel.IsTrustedAssetUrl(trusted, repository, "7.25.4", asset).Should().BeFalse();
         await WebReleaseChannel.IsTrustedAssetUrl(trusted, repository, tag, "WebAPI-update.json").Should().BeFalse();
-        await WebReleaseChannel.IsTrustedAssetUrl("https://github.com/2dust/v2rayN/releases/download/7.25.3/sub/" + asset,
+        await WebReleaseChannel.IsTrustedAssetUrl("https://github.com/johndoecesko/v2rayN/releases/download/7.25.3/sub/" + asset,
             repository, tag, asset).Should().BeFalse();
         await WebReleaseChannel.IsTrustedAssetUrl(null, repository, tag, asset).Should().BeFalse();
     }
