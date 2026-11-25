@@ -106,7 +106,7 @@ public class RegionalPresetStagingTests
         await capturedStage!.DnsItems[0].NormalDNS.Should().BeEqualTo("existing-xray-data");
         await capturedStage.SimpleDnsItem.RemoteDNS.Should().BeEqualTo(ConfigDbHandler.InitBuiltinSimpleDNS().RemoteDNS);
         await capturedStage.Routing.IsBuiltinFallback.Should().BeTrue();
-        await capturedStage.Routing.Items.Count.Should().BeEqualTo(3);
+        await capturedStage.Routing.Items.Count.Should().BeEqualTo(4);
         await config.ConstItem.GeoSourceUrl.Should().BeEqualTo("original-geo-source");
         await dnsRows.SequenceEqual(new[] { "original dns" }).Should().BeTrue();
         await routingRows.SequenceEqual(new[] { "original routing" }).Should().BeTrue();
@@ -687,6 +687,6 @@ public class RegionalPresetStagingTests
         await staged.DnsItems[0].NormalDNS.Should().BeEqualTo("existing-xray-data");
         await staged.SimpleDnsItem.RemoteDNS.Should().BeEqualTo(ConfigDbHandler.InitBuiltinSimpleDNS().RemoteDNS);
         await staged.Routing.IsBuiltinFallback.Should().BeTrue();
-        await staged.Routing.Items.Count.Should().BeEqualTo(3);
+        await staged.Routing.Items.Count.Should().BeEqualTo(4);
     }
 }
