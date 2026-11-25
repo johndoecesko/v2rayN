@@ -2734,8 +2734,8 @@ public static class ConfigDbHandler
 
                 if (simpleDnsRussia == null)
                 {
-                    xrayDnsRussia.Enabled = true;
-                    singboxDnsRussia.Enabled = true;
+                    xrayDnsRussia?.Enabled = true;
+                    singboxDnsRussia?.Enabled = true;
                     CurrentConfig.SimpleDNSItem = InitBuiltinSimpleDNS();
                 }
                 else
@@ -2757,8 +2757,8 @@ public static class ConfigDbHandler
 
                 if (simpleDnsIran == null)
                 {
-                    xrayDnsIran.Enabled = true;
-                    singboxDnsIran.Enabled = true;
+                    xrayDnsIran?.Enabled = true;
+                    singboxDnsIran?.Enabled = true;
                     CurrentConfig.SimpleDNSItem = InitBuiltinSimpleDNS();
                 }
                 else
