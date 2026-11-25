@@ -10,7 +10,7 @@
     xmlns:resx="clr-namespace:ServiceLib.Resx;assembly=ServiceLib"
     xmlns:view="clr-namespace:v2rayN.Views"
     xmlns:vms="clr-namespace:ServiceLib.ViewModels;assembly=ServiceLib"
-    Title="v2rayN"
+    Title="Tropa"
     Width="1200"
     Height="800"
     MinWidth="800"
@@ -45,6 +45,48 @@
                         ClipToBounds="True"
                         KeyboardNavigation.TabNavigation="Continue"
                         Style="{StaticResource MaterialDesignToolBar}">
+                        <Button
+                            x:Name="btnConnection"
+                            Padding="{StaticResource MarginLeftRight8}"
+                            AutomationProperties.Name="{x:Static resx:ResUI.TbConnectionToggleTip}"
+                            ToolTip="{x:Static resx:ResUI.TbConnectionToggleTip}">
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon
+                                    x:Name="iconConnected"
+                                    Width="20"
+                                    Height="20"
+                                    Margin="{StaticResource MarginRight8}"
+                                    VerticalAlignment="Center"
+                                    Foreground="#FF2E9D4A"
+                                    Kind="ShieldCheck"
+                                    Visibility="Collapsed" />
+                                <materialDesign:PackIcon
+                                    x:Name="iconDisconnected"
+                                    Width="20"
+                                    Height="20"
+                                    Margin="{StaticResource MarginRight8}"
+                                    VerticalAlignment="Center"
+                                    Foreground="Gray"
+                                    Kind="ShieldOffOutline" />
+                                <TextBlock
+                                    x:Name="txtConnectionState"
+                                    VerticalAlignment="Center"
+                                    FontWeight="Bold" />
+                                <TextBlock
+                                    x:Name="txtConnectionSummary"
+                                    MaxWidth="280"
+                                    Margin="{StaticResource MarginLeftRight8}"
+                                    VerticalAlignment="Center"
+                                    TextTrimming="CharacterEllipsis" />
+                                <TextBlock
+                                    x:Name="txtConnectionInfo"
+                                    MaxWidth="200"
+                                    VerticalAlignment="Center"
+                                    Opacity="0.7"
+                                    TextTrimming="CharacterEllipsis" />
+                            </StackPanel>
+                        </Button>
+                        <Separator />
                         <Menu Margin="0,1" Style="{StaticResource ToolbarMenu}">
                             <MenuItem Padding="{StaticResource MarginLeftRight8}" AutomationProperties.Name="{x:Static resx:ResUI.menuServers}">
                                 <MenuItem.Header>
@@ -59,119 +101,127 @@
                                 <MenuItem
                                     x:Name="menuAddServerViaClipboard"
                                     Height="{StaticResource MenuItemHeight}"
-                                    Header="{x:Static resx:ResUI.menuAddServerViaClipboard}"
+                                    Header="{x:Static resx:ResUI.menuAddServerFromClipboard}"
                                     InputGestureText="Ctrl+V" />
                                 <MenuItem
                                     x:Name="menuAddServerViaScan"
                                     Height="{StaticResource MenuItemHeight}"
-                                    Header="{x:Static resx:ResUI.menuAddServerViaScan}"
+                                    Header="{x:Static resx:ResUI.menuAddServerScanQr}"
                                     InputGestureText="Ctrl+S" />
                                 <MenuItem
                                     x:Name="menuAddServerViaImage"
                                     Height="{StaticResource MenuItemHeight}"
-                                    Header="{x:Static resx:ResUI.menuAddServerViaImage}" />
+                                    Header="{x:Static resx:ResUI.menuAddServerFromFile}" />
                                 <Separator Margin="-40,5" />
-                                <MenuItem
-                                    x:Name="menuAddCustomServer"
-                                    Height="{StaticResource MenuItemHeight}"
-                                    Header="{x:Static resx:ResUI.menuAddCustomServer}" />
-                                <MenuItem
-                                    x:Name="menuAddPolicyGroupServer"
-                                    Height="{StaticResource MenuItemHeight}"
-                                    Header="{x:Static resx:ResUI.menuAddPolicyGroupServer}" />
-                                <MenuItem
-                                    x:Name="menuAddProxyChainServer"
-                                    Height="{StaticResource MenuItemHeight}"
-                                    Header="{x:Static resx:ResUI.menuAddProxyChainServer}" />
-                                <MenuItem
-                                    x:Name="menuAddCustomOutboundServer"
-                                    Height="{StaticResource MenuItemHeight}"
-                                    Header="{x:Static resx:ResUI.menuAddCustomOutboundServer}" />
-                                <Separator Margin="-40,5" />
-                                <MenuItem
-                                    x:Name="menuAddVmessServer"
-                                    Height="{StaticResource MenuItemHeight}"
-                                    Header="{x:Static resx:ResUI.menuAddVmessServer}" />
-                                <MenuItem
-                                    x:Name="menuAddVlessServer"
-                                    Height="{StaticResource MenuItemHeight}"
-                                    Header="{x:Static resx:ResUI.menuAddVlessServer}" />
-                                <MenuItem
-                                    x:Name="menuAddShadowsocksServer"
-                                    Height="{StaticResource MenuItemHeight}"
-                                    Header="{x:Static resx:ResUI.menuAddShadowsocksServer}" />
-                                <MenuItem
-                                    x:Name="menuAddTrojanServer"
-                                    Height="{StaticResource MenuItemHeight}"
-                                    Header="{x:Static resx:ResUI.menuAddTrojanServer}" />
-                                <MenuItem
-                                    x:Name="menuAddHysteria2Server"
-                                    Height="{StaticResource MenuItemHeight}"
-                                    Header="{x:Static resx:ResUI.menuAddHysteria2Server}" />
-                                <MenuItem
-                                    x:Name="menuAddWireguardServer"
-                                    Height="{StaticResource MenuItemHeight}"
-                                    Header="{x:Static resx:ResUI.menuAddWireguardServer}" />
-                                <MenuItem
-                                    x:Name="menuAddMasqueServer"
-                                    Height="{StaticResource MenuItemHeight}"
-                                    Header="{x:Static resx:ResUI.menuAddMasqueServer}" />
-                                <MenuItem
-                                    x:Name="menuAddSocksServer"
-                                    Height="{StaticResource MenuItemHeight}"
-                                    Header="{x:Static resx:ResUI.menuAddSocksServer}" />
-                                <MenuItem
-                                    x:Name="menuAddHttpServer"
-                                    Height="{StaticResource MenuItemHeight}"
-                                    Header="{x:Static resx:ResUI.menuAddHttpServer}" />
-                                <Separator Margin="-40,5" />
-                                <MenuItem
-                                    x:Name="menuAddTuicServer"
-                                    Height="{StaticResource MenuItemHeight}"
-                                    Header="{x:Static resx:ResUI.menuAddTuicServer}" />
-                                <MenuItem
-                                    x:Name="menuAddAnytlsServer"
-                                    Height="{StaticResource MenuItemHeight}"
-                                    Header="{x:Static resx:ResUI.menuAddAnytlsServer}" />
-                                <MenuItem
-                                    x:Name="menuAddNaiveServer"
-                                    Height="{StaticResource MenuItemHeight}"
-                                    Header="{x:Static resx:ResUI.menuAddNaiveServer}" />
+                                <MenuItem Height="{StaticResource MenuItemHeight}" Header="{x:Static resx:ResUI.menuAddServerManual}">
+                                    <MenuItem
+                                        x:Name="menuAddVlessServer"
+                                        Height="{StaticResource MenuItemHeight}"
+                                        Header="{x:Static resx:ResUI.menuAddVlessServer}" />
+                                    <MenuItem
+                                        x:Name="menuAddVmessServer"
+                                        Height="{StaticResource MenuItemHeight}"
+                                        Header="{x:Static resx:ResUI.menuAddVmessServer}" />
+                                    <MenuItem
+                                        x:Name="menuAddTrojanServer"
+                                        Height="{StaticResource MenuItemHeight}"
+                                        Header="{x:Static resx:ResUI.menuAddTrojanServer}" />
+                                    <MenuItem
+                                        x:Name="menuAddShadowsocksServer"
+                                        Height="{StaticResource MenuItemHeight}"
+                                        Header="{x:Static resx:ResUI.menuAddShadowsocksServer}" />
+                                    <Separator Margin="-40,5" />
+                                    <MenuItem
+                                        x:Name="menuAddHysteria2Server"
+                                        Height="{StaticResource MenuItemHeight}"
+                                        Header="{x:Static resx:ResUI.menuAddHysteria2Server}" />
+                                    <MenuItem
+                                        x:Name="menuAddTuicServer"
+                                        Height="{StaticResource MenuItemHeight}"
+                                        Header="{x:Static resx:ResUI.menuAddTuicServer}" />
+                                    <MenuItem
+                                        x:Name="menuAddAnytlsServer"
+                                        Height="{StaticResource MenuItemHeight}"
+                                        Header="{x:Static resx:ResUI.menuAddAnytlsServer}" />
+                                    <MenuItem
+                                        x:Name="menuAddNaiveServer"
+                                        Height="{StaticResource MenuItemHeight}"
+                                        Header="{x:Static resx:ResUI.menuAddNaiveServer}" />
+                                    <MenuItem
+                                        x:Name="menuAddWireguardServer"
+                                        Height="{StaticResource MenuItemHeight}"
+                                        Header="{x:Static resx:ResUI.menuAddWireguardServer}" />
+                                    <MenuItem
+                                        x:Name="menuAddMasqueServer"
+                                        Height="{StaticResource MenuItemHeight}"
+                                        Header="{x:Static resx:ResUI.menuAddMasqueServer}" />
+                                    <Separator Margin="-40,5" />
+                                    <MenuItem
+                                        x:Name="menuAddSocksServer"
+                                        Height="{StaticResource MenuItemHeight}"
+                                        Header="{x:Static resx:ResUI.menuAddSocksServer}" />
+                                    <MenuItem
+                                        x:Name="menuAddHttpServer"
+                                        Height="{StaticResource MenuItemHeight}"
+                                        Header="{x:Static resx:ResUI.menuAddHttpServer}" />
+                                </MenuItem>
+                                <MenuItem Height="{StaticResource MenuItemHeight}" Header="{x:Static resx:ResUI.menuAddServerAdvanced}">
+                                    <MenuItem
+                                        x:Name="menuAddCustomServer"
+                                        Height="{StaticResource MenuItemHeight}"
+                                        Header="{x:Static resx:ResUI.menuAddCustomServer}" />
+                                    <MenuItem
+                                        x:Name="menuAddPolicyGroupServer"
+                                        Height="{StaticResource MenuItemHeight}"
+                                        Header="{x:Static resx:ResUI.menuAddPolicyGroupServer}" />
+                                    <MenuItem
+                                        x:Name="menuAddProxyChainServer"
+                                        Height="{StaticResource MenuItemHeight}"
+                                        Header="{x:Static resx:ResUI.menuAddProxyChainServer}" />
+                                    <MenuItem
+                                        x:Name="menuAddCustomOutboundServer"
+                                        Height="{StaticResource MenuItemHeight}"
+                                        Header="{x:Static resx:ResUI.menuAddCustomOutboundServer}" />
+                                </MenuItem>
                             </MenuItem>
                         </Menu>
                         <Separator />
                         <Menu Margin="0,1" Style="{StaticResource ToolbarMenu}">
-                            <MenuItem Padding="{StaticResource MarginLeftRight8}" AutomationProperties.Name="{x:Static resx:ResUI.menuSubscription}">
+                            <MenuItem Padding="{StaticResource MarginLeftRight8}" AutomationProperties.Name="{x:Static resx:ResUI.menuSubscriptions}">
                                 <MenuItem.Header>
                                     <StackPanel Orientation="Horizontal">
                                         <materialDesign:PackIcon
                                             Margin="{StaticResource MarginRight8}"
                                             VerticalAlignment="Center"
                                             Kind="BookClockOutline" />
-                                        <TextBlock Text="{x:Static resx:ResUI.menuSubscription}" />
+                                        <TextBlock Text="{x:Static resx:ResUI.menuSubscriptions}" />
                                     </StackPanel>
                                 </MenuItem.Header>
                                 <MenuItem
-                                    x:Name="menuSubSetting"
-                                    Height="{StaticResource MenuItemHeight}"
-                                    Header="{x:Static resx:ResUI.menuSubSetting}" />
-                                <Separator Margin="-40,5" />
-                                <MenuItem
                                     x:Name="menuSubUpdate"
                                     Height="{StaticResource MenuItemHeight}"
-                                    Header="{x:Static resx:ResUI.menuSubUpdate}" />
+                                    Header="{x:Static resx:ResUI.menuSubUpdateAll}" />
                                 <MenuItem
                                     x:Name="menuSubUpdateViaProxy"
                                     Height="{StaticResource MenuItemHeight}"
-                                    Header="{x:Static resx:ResUI.menuSubUpdateViaProxy}" />
+                                    Header="{x:Static resx:ResUI.menuSubUpdateAllViaProxy}" />
                                 <MenuItem
                                     x:Name="menuSubGroupUpdate"
                                     Height="{StaticResource MenuItemHeight}"
-                                    Header="{x:Static resx:ResUI.menuSubGroupUpdate}" />
+                                    Header="{x:Static resx:ResUI.menuSubGroupUpdateCurrent}" />
                                 <MenuItem
                                     x:Name="menuSubGroupUpdateViaProxy"
                                     Height="{StaticResource MenuItemHeight}"
-                                    Header="{x:Static resx:ResUI.menuSubGroupUpdateViaProxy}" />
+                                    Header="{x:Static resx:ResUI.menuSubGroupUpdateCurrentViaProxy}" />
+                                <Separator Margin="-40,5" />
+                                <MenuItem
+                                    x:Name="menuSubAddNew"
+                                    Height="{StaticResource MenuItemHeight}"
+                                    Header="{x:Static resx:ResUI.menuSubAddNew}" />
+                                <MenuItem
+                                    x:Name="menuSubSetting"
+                                    Height="{StaticResource MenuItemHeight}"
+                                    Header="{x:Static resx:ResUI.menuSubManage}" />
                             </MenuItem>
                         </Menu>
                         <Separator />
@@ -189,59 +239,58 @@
                                 <MenuItem
                                     x:Name="menuOptionSetting"
                                     Height="{StaticResource MenuItemHeight}"
-                                    Header="{x:Static resx:ResUI.menuOptionSetting}" />
+                                    Header="{x:Static resx:ResUI.menuSettingsGeneral}" />
                                 <MenuItem
                                     x:Name="menuRoutingSetting"
                                     Height="{StaticResource MenuItemHeight}"
-                                    Header="{x:Static resx:ResUI.menuRoutingSetting}" />
+                                    Header="{x:Static resx:ResUI.menuSettingsRouting}" />
                                 <MenuItem
                                     x:Name="menuDNSSetting"
                                     Height="{StaticResource MenuItemHeight}"
-                                    Header="{x:Static resx:ResUI.menuDNSSetting}" />
+                                    Header="{x:Static resx:ResUI.menuSettingsDns}" />
                                 <MenuItem
-                                    x:Name="menuFullConfigTemplate"
+                                    x:Name="menuRegionalPresetsRussia"
                                     Height="{StaticResource MenuItemHeight}"
-                                    Header="{x:Static resx:ResUI.menuFullConfigTemplate}" />
-                                <MenuItem
-                                    x:Name="menuGlobalHotkeySetting"
-                                    Height="{StaticResource MenuItemHeight}"
-                                    Header="{x:Static resx:ResUI.menuGlobalHotkeySetting}" />
-                                <Separator Margin="-40,5" />
-                                <MenuItem
-                                    x:Name="menuRebootAsAdmin"
-                                    Height="{StaticResource MenuItemHeight}"
-                                    Header="{x:Static resx:ResUI.menuRebootAsAdmin}" />
-                                <MenuItem
-                                    x:Name="menuSettingsSetUWP"
-                                    Height="{StaticResource MenuItemHeight}"
-                                    Header="{x:Static resx:ResUI.TbSettingsSetUWP}" />
-                                <MenuItem
-                                    x:Name="menuClearServerStatistics"
-                                    Height="{StaticResource MenuItemHeight}"
-                                    Header="{x:Static resx:ResUI.menuClearServerStatistics}" />
-                                <Separator Margin="-40,5" />
-                                <MenuItem Height="{StaticResource MenuItemHeight}" Header="{x:Static resx:ResUI.menuRegionalPresets}">
-                                    <MenuItem
-                                        x:Name="menuRegionalPresetsDefault"
-                                        Height="{StaticResource MenuItemHeight}"
-                                        Header="{x:Static resx:ResUI.menuRegionalPresetsDefault}" />
-                                    <MenuItem
-                                        x:Name="menuRegionalPresetsRussia"
-                                        Height="{StaticResource MenuItemHeight}"
-                                        Header="{x:Static resx:ResUI.menuRegionalPresetsRussia}" />
-                                    <MenuItem
-                                        x:Name="menuRegionalPresetsIran"
-                                        Height="{StaticResource MenuItemHeight}"
-                                        Header="{x:Static resx:ResUI.menuRegionalPresetsIran}" />
-                                </MenuItem>
+                                    Header="{x:Static resx:ResUI.menuUpdateRuRules}" />
                                 <MenuItem
                                     x:Name="menuBackupAndRestore"
                                     Height="{StaticResource MenuItemHeight}"
-                                    Header="{x:Static resx:ResUI.menuBackupAndRestore}" />
-                                <MenuItem
-                                    x:Name="menuOpenTheFileLocation"
-                                    Height="{StaticResource MenuItemHeight}"
-                                    Header="{x:Static resx:ResUI.menuOpenTheFileLocation}" />
+                                    Header="{x:Static resx:ResUI.menuSettingsBackup}" />
+                                <Separator Margin="-40,5" />
+                                <MenuItem Height="{StaticResource MenuItemHeight}" Header="{x:Static resx:ResUI.menuAdvancedSettings}">
+                                    <MenuItem
+                                        x:Name="menuFullConfigTemplate"
+                                        Height="{StaticResource MenuItemHeight}"
+                                        Header="{x:Static resx:ResUI.menuFullConfigTemplate}" />
+                                    <MenuItem
+                                        x:Name="menuGlobalHotkeySetting"
+                                        Height="{StaticResource MenuItemHeight}"
+                                        Header="{x:Static resx:ResUI.menuGlobalHotkeySetting}" />
+                                    <Separator Margin="-40,5" />
+                                    <MenuItem
+                                        x:Name="menuRebootAsAdmin"
+                                        Height="{StaticResource MenuItemHeight}"
+                                        Header="{x:Static resx:ResUI.menuRebootAsAdmin}" />
+                                    <MenuItem
+                                        x:Name="menuSettingsSetUWP"
+                                        Height="{StaticResource MenuItemHeight}"
+                                        Header="{x:Static resx:ResUI.TbSettingsSetUWP}" />
+                                    <MenuItem
+                                        x:Name="menuClearServerStatistics"
+                                        Height="{StaticResource MenuItemHeight}"
+                                        Header="{x:Static resx:ResUI.menuClearServerStatistics}" />
+                                    <!--  Regional presets other than Russia are hidden in this fork; kept for the existing command bindings.  -->
+                                    <MenuItem
+                                        x:Name="menuRegionalPresetsDefault"
+                                        Height="{StaticResource MenuItemHeight}"
+                                        Header="{x:Static resx:ResUI.menuRegionalPresetsDefault}"
+                                        Visibility="Collapsed" />
+                                    <MenuItem
+                                        x:Name="menuRegionalPresetsIran"
+                                        Height="{StaticResource MenuItemHeight}"
+                                        Header="{x:Static resx:ResUI.menuRegionalPresetsIran}"
+                                        Visibility="Collapsed" />
+                                </MenuItem>
                             </MenuItem>
                         </Menu>
                         <Separator />
@@ -259,59 +308,57 @@
                                         <TextBlock Text="{x:Static resx:ResUI.menuHelp}" />
                                     </StackPanel>
                                 </MenuItem.Header>
-                                <MenuItem x:Name="menuCheckUpdate" Header="{x:Static resx:ResUI.menuCheckUpdate}" />
+                                <MenuItem
+                                    x:Name="menuCheckUpdate"
+                                    Height="{StaticResource MenuItemHeight}"
+                                    Header="{x:Static resx:ResUI.menuCheckUpdate}" />
+                                <MenuItem
+                                    x:Name="menuSetupGuide"
+                                    Height="{StaticResource MenuItemHeight}"
+                                    Header="{x:Static resx:ResUI.menuSetupGuide}" />
+                                <MenuItem
+                                    x:Name="menuOpenTheFileLocation"
+                                    Height="{StaticResource MenuItemHeight}"
+                                    Header="{x:Static resx:ResUI.menuOpenProgramFolder}" />
+                                <MenuItem
+                                    x:Name="menuAbout"
+                                    Height="{StaticResource MenuItemHeight}"
+                                    Header="{x:Static resx:ResUI.menuAbout}" />
                                 <Separator Margin="-40,5" />
+                                <MenuItem
+                                    x:Name="menuCoreWebsites"
+                                    Height="{StaticResource MenuItemHeight}"
+                                    Header="{x:Static resx:ResUI.menuCoreWebsites}" />
                             </MenuItem>
                         </Menu>
                         <Separator />
                         <Menu Margin="0,1" Style="{StaticResource ToolbarMenu}">
                             <MenuItem
-                                x:Name="menuReload"
                                 Padding="{StaticResource MarginLeftRight8}"
-                                AutomationProperties.Name="{x:Static resx:ResUI.menuReload}">
+                                AutomationProperties.Name="{x:Static resx:ResUI.menuMore}"
+                                ToolTip="{x:Static resx:ResUI.menuMore}">
                                 <MenuItem.Header>
-                                    <StackPanel Orientation="Horizontal">
-                                        <materialDesign:PackIcon
-                                            Margin="{StaticResource MarginRight8}"
-                                            VerticalAlignment="Center"
-                                            Kind="Reload" />
-                                        <TextBlock Text="{x:Static resx:ResUI.menuReload}" />
-                                    </StackPanel>
+                                    <materialDesign:PackIcon VerticalAlignment="Center" Kind="DotsVertical" />
                                 </MenuItem.Header>
-                            </MenuItem>
-                        </Menu>
-                        <Separator />
-                        <Menu Margin="0,1" Style="{StaticResource ToolbarMenu}">
-                            <MenuItem
-                                x:Name="menuPromotion"
-                                Padding="{StaticResource MarginLeftRight8}"
-                                AutomationProperties.Name="{x:Static resx:ResUI.menuPromotion}">
-                                <MenuItem.Header>
-                                    <StackPanel Orientation="Horizontal">
-                                        <materialDesign:PackIcon
-                                            Margin="{StaticResource MarginRight8}"
-                                            VerticalAlignment="Center"
-                                            Kind="VolumeHigh" />
-                                        <TextBlock Text="{x:Static resx:ResUI.menuPromotion}" />
-                                    </StackPanel>
-                                </MenuItem.Header>
-                            </MenuItem>
-                        </Menu>
-                        <Separator />
-                        <Menu Margin="0,1" Style="{StaticResource ToolbarMenu}">
-                            <MenuItem
-                                x:Name="menuClose"
-                                Padding="{StaticResource MarginLeftRight8}"
-                                AutomationProperties.Name="{x:Static resx:ResUI.menuClose}">
-                                <MenuItem.Header>
-                                    <StackPanel Orientation="Horizontal">
-                                        <materialDesign:PackIcon
-                                            Margin="{StaticResource MarginRight8}"
-                                            VerticalAlignment="Center"
-                                            Kind="Minimize" />
-                                        <TextBlock Text="{x:Static resx:ResUI.menuClose}" />
-                                    </StackPanel>
-                                </MenuItem.Header>
+                                <MenuItem
+                                    x:Name="menuReload"
+                                    Height="{StaticResource MenuItemHeight}"
+                                    AutomationProperties.Name="{x:Static resx:ResUI.menuReload}"
+                                    Header="{x:Static resx:ResUI.menuReload}"
+                                    InputGestureText="F5">
+                                    <MenuItem.Icon>
+                                        <materialDesign:PackIcon Kind="Reload" />
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <MenuItem
+                                    x:Name="menuClose"
+                                    Height="{StaticResource MenuItemHeight}"
+                                    AutomationProperties.Name="{x:Static resx:ResUI.menuClose}"
+                                    Header="{x:Static resx:ResUI.menuClose}">
+                                    <MenuItem.Icon>
+                                        <materialDesign:PackIcon Kind="Minimize" />
+                                    </MenuItem.Icon>
+                                </MenuItem>
                             </MenuItem>
                         </Menu>
 

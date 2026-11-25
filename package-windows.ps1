@@ -299,7 +299,7 @@ $themeTemplate = @'
   <Font Id="4" Height="-16" Weight="450" Foreground="363030" Background="ffffff">Segoe UI</Font>
   <Window Width="640" Height="430" HexStyle="100a0000" FontId="0" Caption="#(loc.Caption)">
     <ImageControl X="32" Y="27" Width="64" Height="64" ImageFile="logo.png" Visible="yes" />
-    <Label X="112" Y="29" Width="-32" Height="44" FontId="1" DisablePrefix="yes">v2rayN</Label>
+    <Label X="112" Y="29" Width="-32" Height="44" FontId="1" DisablePrefix="yes">Tropa</Label>
     <Label X="114" Y="77" Width="-32" Height="29" FontId="3" DisablePrefix="yes">#(loc.Tagline)</Label>
     <Page Name="Loading">
       <Label X="32" Y="146" Width="-32" Height="42" FontId="4">#(loc.Preparing)</Label>
@@ -399,11 +399,11 @@ $themeCultures = @(
     @{ Culture = 'fr-FR'; Lcid = 1036 }
 )
 $themeTranslations = [ordered]@{
-    Caption = @('v2rayN Setup', 'v2rayN 安装程序', 'v2rayN 安裝程式', 'Installation de v2rayN')
+    Caption = @('Tropa Setup', 'Tropa 安装程序', 'Tropa 安裝程式', 'Installation de Tropa')
     Tagline = @('A modern proxy client', '现代代理客户端', '現代代理用戶端', 'Un client proxy moderne')
     Preparing = @('Preparing setup…', '正在准备安装…', '正在準備安裝…', 'Préparation de l''installation…')
-    HelpHeader = @('v2rayN setup', 'v2rayN 安装程序', 'v2rayN 安裝程式', 'Installation de v2rayN')
-    HelpMessage = @('Install, repair, or remove v2rayN.', '安装、修复或卸载 v2rayN。', '安裝、修復或解除安裝 v2rayN。', 'Installez, réparez ou désinstallez v2rayN.')
+    HelpHeader = @('Tropa setup', 'Tropa 安装程序', 'Tropa 安裝程式', 'Installation de Tropa')
+    HelpMessage = @('Install, repair, or remove Tropa.', '安装、修复或卸载 Tropa。', '安裝、修復或解除安裝 Tropa。', 'Installez, réparez ou désinstallez Tropa.')
     Close = @('Close', '关闭', '關閉', 'Fermer')
     InstallHeader = @('Ready to install', '准备安装', '準備安裝', 'Prêt à installer')
     InstallMessage = @('Proxy management for Windows.', 'Windows 代理管理工具。', 'Windows 代理管理工具。', 'Gestion de proxy pour Windows.')
@@ -418,19 +418,19 @@ $themeTranslations = [ordered]@{
     StartShortcut = @('Create a Start menu shortcut', '创建开始菜单快捷方式', '建立開始功能表捷徑', 'Créer un raccourci dans le menu Démarrer')
     Save = @('Save', '保存', '儲存', 'Enregistrer')
     Back = @('Back', '返回', '返回', 'Retour')
-    ModifyHeader = @('v2rayN is installed', 'v2rayN 已安装', 'v2rayN 已安裝', 'v2rayN est installé')
-    ModifyMessage = @('You can repair the installation or uninstall v2rayN.', '可以修复安装或卸载 v2rayN。', '您可以修復安裝或解除安裝 v2rayN。', 'Vous pouvez réparer ou désinstaller v2rayN.')
+    ModifyHeader = @('Tropa is installed', 'Tropa 已安装', 'Tropa 已安裝', 'Tropa est installé')
+    ModifyMessage = @('You can repair the installation or uninstall Tropa.', '可以修复安装或卸载 Tropa。', '您可以修復安裝或解除安裝 Tropa。', 'Vous pouvez réparer ou désinstaller Tropa.')
     Repair = @('Repair', '修复', '修復', 'Réparer')
     Uninstall = @('Uninstall', '卸载', '解除安裝', 'Désinstaller')
     ProgressHeader = @('Setting things up', '正在配置', '正在設定', 'Configuration en cours')
-    ProgressPackage = @('Installing v2rayN…', '正在安装 v2rayN…', '正在安裝 v2rayN…', 'Installation de v2rayN…')
+    ProgressPackage = @('Installing Tropa…', '正在安装 Tropa…', '正在安裝 Tropa…', 'Installation de Tropa…')
     Cancel = @('Cancel', '取消', '取消', 'Annuler')
     SuccessHeader = @('Operation completed', '操作已完成', '作業已完成', 'Opération terminée')
-    SuccessUninstall = @('v2rayN was uninstalled', 'v2rayN 已卸载', 'v2rayN 已解除安裝', 'v2rayN a été désinstallé')
-    SuccessInstall = @('v2rayN is ready', 'v2rayN 已准备就绪', 'v2rayN 已準備就緒', 'v2rayN est prêt')
-    SuccessRepair = @('v2rayN was repaired', 'v2rayN 已修复', 'v2rayN 已修復', 'v2rayN a été réparé')
+    SuccessUninstall = @('Tropa was uninstalled', 'Tropa 已卸载', 'Tropa 已解除安裝', 'Tropa a été désinstallé')
+    SuccessInstall = @('Tropa is ready', 'Tropa 已准备就绪', 'Tropa 已準備就緒', 'Tropa est prêt')
+    SuccessRepair = @('Tropa was repaired', 'Tropa 已修复', 'Tropa 已修復', 'Tropa a été réparé')
     SuccessMessage = @('Everything finished successfully.', '操作已成功完成。', '作業已成功完成。', 'L''opération s''est terminée avec succès.')
-    Launch = @('Launch v2rayN', '启动 v2rayN', '啟動 v2rayN', 'Lancer v2rayN')
+    Launch = @('Launch Tropa', '启动 Tropa', '啟動 Tropa', 'Lancer Tropa')
     RestartNeeded = @('Restart Windows to finish setup.', '请重启 Windows 以完成安装。', '請重新啟動 Windows 以完成安裝。', 'Redémarrez Windows pour terminer l''installation.')
     Restart = @('Restart', '重启', '重新啟動', 'Redémarrer')
     Done = @('Done', '完成', '完成', 'Terminer')
@@ -580,13 +580,13 @@ try {
             if (-not (Test-Path $iconPath)) { throw "Missing icon: $iconPath" }
             $logo = Join-Path $work "$flavor-$arch-logo.png"
             Add-Type -AssemblyName System.Drawing
-            $iconObject = [System.Drawing.Icon]::new($iconPath)
+            $iconObject = [System.Drawing.Icon]::new($iconPath, [System.Drawing.Size]::new(64, 64))
             $iconBitmap = $iconObject.ToBitmap()
             try { $iconBitmap.Save($logo, [System.Drawing.Imaging.ImageFormat]::Png) }
             finally { $iconBitmap.Dispose(); $iconObject.Dispose() }
-            $shortcutName = if ($flavor -eq 'wpf') { 'v2rayN' } else { 'v2rayN Desktop' }
+            $shortcutName = if ($flavor -eq 'wpf') { 'Tropa' } else { 'Tropa Desktop' }
             $templateVars = @{
-                'NAME' = Escape-Xml "v2rayN $flavorLabel ($arch)"
+                'NAME' = Escape-Xml "Tropa $flavorLabel ($arch)"
                 'SHORTCUT_NAME' = Escape-Xml $shortcutName
                 'VERSION' = Escape-Xml $Version
                 'MSIGUID' = Escape-Xml $msiGuid
@@ -610,8 +610,8 @@ try {
 <Wix xmlns="http://wixtoolset.org/schemas/v4/wxs" xmlns:util="http://wixtoolset.org/schemas/v4/wxs/util">
   <Package Name="{{NAME}}" Manufacturer="2dust" Version="{{VERSION}}" UpgradeCode="{{MSIGUID}}" Scope="perMachine" InstallerVersion="500" Language="1033">
     <MediaTemplate EmbedCab="yes" />
-    <MajorUpgrade Schedule="afterInstallInitialize" DowngradeErrorMessage="A newer version of v2rayN is installed." />
-    <util:CloseApplication Id="CloseV2rayN" Target="v2rayN.exe" CloseMessage="yes" PromptToContinue="yes" Description="Save your changes and close v2rayN before continuing." Timeout="20" RebootPrompt="yes" />
+    <MajorUpgrade Schedule="afterInstallInitialize" DowngradeErrorMessage="A newer version of Tropa is installed." />
+    <util:CloseApplication Id="CloseV2rayN" Target="v2rayN.exe" CloseMessage="yes" PromptToContinue="yes" Description="Save your changes and close Tropa before continuing." Timeout="20" RebootPrompt="yes" />
     <Property Id="CREATE_DESKTOP_SHORTCUT" Value="1" Secure="yes" />
     <Property Id="CREATE_STARTMENU_SHORTCUT" Value="1" Secure="yes" />
     <Property Id="PREVIOUS_DIR" Secure="yes"><RegistrySearch Id="FindPreviousDir" Root="HKLM" Key="{{REGKEY}}" Name="InstallDir" Type="raw" /></Property>
@@ -656,7 +656,7 @@ try {
       <RemoveFolder Id="RemoveMenu" On="uninstall" />
       <RegistryValue Root="HKLM" Key="{{REGKEY}}" Name="StartMenuLink" Value="1" Type="integer" KeyPath="yes" />
     </Component>
-    <Feature Id="Main" Title="v2rayN" Level="1" AllowAbsent="no" Display="expand" AllowAdvertise="no" ConfigurableDirectory="INSTALLFOLDER">
+    <Feature Id="Main" Title="Tropa" Level="1" AllowAbsent="no" Display="expand" AllowAdvertise="no" ConfigurableDirectory="INSTALLFOLDER">
       <ComponentGroupRef Id="AllFiles" />
       <ComponentRef Id="DirState" />
       <Feature Id="DesktopOpt" Title="Desktop shortcut" Level="1" AllowAdvertise="no">

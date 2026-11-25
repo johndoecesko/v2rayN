@@ -415,7 +415,7 @@
     <value>Настройка глобальных горячих клавиш</value>
   </data>
   <data name="menuHelp" xml:space="preserve">
-    <value>Помощь</value>
+    <value>Справка</value>
   </data>
   <data name="menuOptionSetting" xml:space="preserve">
     <value>Параметры</value>
@@ -553,7 +553,7 @@
     <value>Удалить</value>
   </data>
   <data name="menuSubEdit" xml:space="preserve">
-    <value>Редактировать</value>
+    <value>Изменить</value>
   </data>
   <data name="menuSubShare" xml:space="preserve">
     <value>Поделиться</value>
@@ -1333,7 +1333,7 @@
     <value>Настройка региональных пресетов</value>
   </data>
   <data name="menuRegionalPresetsDefault" xml:space="preserve">
-    <value>По умолчанию (Китай)</value>
+    <value>Встроенные правила</value>
   </data>
   <data name="menuRegionalPresetsRussia" xml:space="preserve">
     <value>Россия</value>
@@ -1973,5 +1973,92 @@
   </data>
   <data name="TbSpeedtestSettings" xml:space="preserve">
     <value>Настройки теста скорости</value>
+  </data>
+  <data name="TbConnected" xml:space="preserve">
+    <value>Подключено</value>
+  </data>
+  <data name="TbDisconnected" xml:space="preserve">
+    <value>Отключено</value>
+  </data>
+  <data name="TbConnectionToggleTip" xml:space="preserve">
+    <value>Нажмите, чтобы включить или выключить системный прокси</value>
+  </data>
+  <data name="menuMore" xml:space="preserve">
+    <value>Ещё</value>
+  </data>
+  <data name="menuSubscriptions" xml:space="preserve">
+    <value>Подписки</value>
+  </data>
+  <data name="menuAddServerFromClipboard" xml:space="preserve">
+    <value>Вставить из буфера</value>
+  </data>
+  <data name="menuAddServerScanQr" xml:space="preserve">
+    <value>Сканировать QR</value>
+  </data>
+  <data name="menuAddServerFromFile" xml:space="preserve">
+    <value>Из файла или картинки</value>
+  </data>
+  <data name="menuAddServerManual" xml:space="preserve">
+    <value>Вручную</value>
+  </data>
+  <data name="menuAddServerAdvanced" xml:space="preserve">
+    <value>Дополнительно</value>
+  </data>
+  <data name="menuSubUpdateAll" xml:space="preserve">
+    <value>Обновить все</value>
+  </data>
+  <data name="menuSubUpdateAllViaProxy" xml:space="preserve">
+    <value>Обновить через прокси</value>
+  </data>
+  <data name="menuSubGroupUpdateCurrent" xml:space="preserve">
+    <value>Обновить текущую группу</value>
+  </data>
+  <data name="menuSubGroupUpdateCurrentViaProxy" xml:space="preserve">
+    <value>Обновить текущую группу через прокси</value>
+  </data>
+  <data name="menuSubAddNew" xml:space="preserve">
+    <value>Добавить подписку</value>
+  </data>
+  <data name="menuSubManage" xml:space="preserve">
+    <value>Управление…</value>
+  </data>
+  <data name="menuSubItemUpdate" xml:space="preserve">
+    <value>Обновить</value>
+  </data>
+  <data name="menuSubItemUpdateViaProxy" xml:space="preserve">
+    <value>Обновить через прокси</value>
+  </data>
+  <data name="menuSubDeleteTips" xml:space="preserve">
+    <value>Удалить подписку «{0}» вместе с её серверами?</value>
+  </data>
+  <data name="menuSettingsGeneral" xml:space="preserve">
+    <value>Основные</value>
+  </data>
+  <data name="menuSettingsRouting" xml:space="preserve">
+    <value>Маршрутизация</value>
+  </data>
+  <data name="menuSettingsDns" xml:space="preserve">
+    <value>DNS</value>
+  </data>
+  <data name="menuUpdateRuRules" xml:space="preserve">
+    <value>Обновить правила РФ</value>
+  </data>
+  <data name="menuSettingsBackup" xml:space="preserve">
+    <value>Резервная копия</value>
+  </data>
+  <data name="menuAdvancedSettings" xml:space="preserve">
+    <value>Для опытных</value>
+  </data>
+  <data name="menuSetupGuide" xml:space="preserve">
+    <value>Инструкция по настройке</value>
+  </data>
+  <data name="menuOpenProgramFolder" xml:space="preserve">
+    <value>Открыть папку программы</value>
+  </data>
+  <data name="menuAbout" xml:space="preserve">
+    <value>О программе</value>
+  </data>
+  <data name="menuCoreWebsites" xml:space="preserve">
+    <value>Сайты ядер</value>
   </data>
 </root>

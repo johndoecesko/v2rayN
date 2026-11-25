@@ -7,7 +7,7 @@
     xmlns:semi="https://irihi.tech/semi"
     xmlns:service="clr-namespace:ServiceLib;assembly=ServiceLib"
     xmlns:vms="clr-namespace:ServiceLib.ViewModels;assembly=ServiceLib"
-    Name="v2rayN"
+    Name="Tropa"
     x:DataType="vms:StatusBarViewModel"
     RequestedThemeVariant="Default">
     <Application.Resources>
@@ -30,7 +30,7 @@
             <TrayIcon
                 Command="{Binding NotifyLeftClickCmd}"
                 Icon="/Assets/NotifyIcon1.ico"
-                ToolTipText="{Binding RunningServerToolTipText, FallbackValue={x:Static service:Global.AppName}}">
+                ToolTipText="{Binding RunningServerToolTipText, FallbackValue={x:Static service:Global.AppDisplayName}}">
                 <TrayIcon.Menu>
                     <NativeMenu>
                         <NativeMenuItem

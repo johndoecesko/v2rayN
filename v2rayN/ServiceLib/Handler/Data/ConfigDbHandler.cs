@@ -2412,7 +2412,7 @@ public static class ConfigDbHandler
 
     /// <summary>
     /// Initialize built-in routing rules
-    /// Creates default routing configurations (whitelist, blacklist, global)
+    /// Creates default routing configurations (RU direct, global)
     /// </summary>
     /// <param name="config">Current configuration</param>
     /// <param name="blImportAdvancedRules">Whether to import advanced rules</param>
@@ -2451,35 +2451,20 @@ public static class ConfigDbHandler
         }
 
         var maxSort = items.Count;
-        //Bypass the mainland
-        var item2 = new RoutingItem()
-        {
-            Remarks = $"{ver}绕过大陆(Whitelist)",
-            Url = string.Empty,
-            Sort = maxSort + 1,
-        };
-        await AddBatchRoutingRules(item2, EmbedUtils.GetEmbedText(Global.CustomRoutingFileName + "white"));
+        // This fork ships only RU + Global; the upstream China whitelist/blacklist are dropped
+        // (existing installs: ForkMigrations step 2).
 
-        //Blacklist
-        var item3 = new RoutingItem()
-        {
-            Remarks = $"{ver}黑名单(Blacklist)",
-            Url = string.Empty,
-            Sort = maxSort + 2,
-        };
-        await AddBatchRoutingRules(item3, EmbedUtils.GetEmbedText(Global.CustomRoutingFileName + "black"));
+        //Russia (RU direct) — for users in Russia: RU sites/IPs direct, rest via proxy
+        var item4 = await AddRuRoutingItem(ver, maxSort + 1);
 
         //Global
         var item1 = new RoutingItem()
         {
-            Remarks = $"{ver}全局(Global)",
+            Remarks = $"{ver}Всё через прокси",
             Url = string.Empty,
-            Sort = maxSort + 3,
+            Sort = maxSort + 2,
         };
         await AddBatchRoutingRules(item1, EmbedUtils.GetEmbedText(Global.CustomRoutingFileName + "global"));
-
-        //Russia (RU direct) — for users in Russia: RU sites/IPs direct, rest via proxy
-        var item4 = await AddRuRoutingItem(ver, maxSort + 4);
 
         if (!blImportAdvancedRules)
         {
@@ -2489,7 +2474,17 @@ public static class ConfigDbHandler
         return 0;
     }
 
+    /// <summary>Display name of the built-in Russia routing preset.</summary>
+    public const string RuRoutingRemarks = "Российские сайты напрямую";
+
+    /// <summary>Marker of the preset's earlier name ("Обход России(RU direct)").</summary>
     public const string RuRoutingRemarksTag = "(RU direct)";
+
+    public static bool IsRuRoutingPreset(string? remarks)
+    {
+        return remarks != null
+            && (remarks.Contains(RuRoutingRemarksTag) || remarks.EndsWith(RuRoutingRemarks, StringComparison.Ordinal));
+    }
 
     private const string BuiltinRoutingVersionPrefix = "V4-";
 
@@ -2497,7 +2492,7 @@ public static class ConfigDbHandler
     {
         var item = new RoutingItem()
         {
-            Remarks = $"{ver}Обход России{RuRoutingRemarksTag}",
+            Remarks = $"{ver}{RuRoutingRemarks}",
             Url = string.Empty,
             Sort = sort,
             // geoip:ru only matches domain requests when the domain is resolved first
@@ -2811,7 +2806,10 @@ public static class ConfigDbHandler
         var changed = await ForkMigrations.MigrateAsync(
             CurrentConfig,
             async () => await ConfigDbQuery.RoutingItems() ?? [],
-            async sort => await AddRuRoutingItem(BuiltinRoutingVersionPrefix, sort));
+            async sort => await AddRuRoutingItem(BuiltinRoutingVersionPrefix, sort),
+            async item => await RemoveRoutingItem(item),
+            async item => await SaveRoutingItem(item),
+            async item => await SetDefaultRouting(item));
         if (changed)
         {
             await SaveConfig();

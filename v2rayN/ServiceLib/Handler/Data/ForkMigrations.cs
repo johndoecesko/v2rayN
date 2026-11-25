@@ -13,10 +13,22 @@ public static class ForkMigrations
     /// Latest migration step. Bump it and add a step to <see cref="MigrateAsync"/> when
     /// a new one-time migration is needed.
     /// </summary>
-    public const int CurrentVersion = 1;
+    public const int CurrentVersion = 2;
 
     public const string ChromeFingerprint = "chrome";
     public const string ChromeUserAgent = "chrome";
+
+    /// <summary>Upstream builtin routing items removed by migration step 2.</summary>
+    public const string LegacyWhitelistRoutingRemarks = "V4-绕过大陆(Whitelist)";
+    public const string LegacyBlacklistRoutingRemarks = "V4-黑名单(Blacklist)";
+
+    /// <summary>Upstream builtin "Global" routing item, renamed by migration step 2.</summary>
+    public const string LegacyGlobalRoutingRemarks = "V4-全局(Global)";
+    public const string GlobalRoutingRemarks = "V4-Всё через прокси";
+
+    /// <summary>Name of the RU preset in 8.0.1, renamed by migration step 2.</summary>
+    public const string LegacyRuRoutingRemarks = "V4-Обход России(RU direct)";
+    public const string RuRoutingRemarks = "V4-" + ConfigDbHandler.RuRoutingRemarks;
 
     /// <summary>
     /// Brand-new install (no config file yet): behave as if the user had picked the Russia
@@ -55,11 +67,17 @@ public static class ForkMigrations
     /// <param name="config">Loaded configuration.</param>
     /// <param name="loadRoutingItems">Loads the stored routing items.</param>
     /// <param name="addRuRoutingItem">Adds the RU routing preset with the given sort order.</param>
+    /// <param name="removeRoutingItem">Deletes a stored routing item.</param>
+    /// <param name="saveRoutingItem">Saves (updates) a stored routing item.</param>
+    /// <param name="setDefaultRouting">Makes a stored routing item the active (default) one.</param>
     /// <returns>True when the config changed and must be saved.</returns>
     public static async Task<bool> MigrateAsync(
         Config config,
         Func<Task<IReadOnlyList<RoutingItem>>> loadRoutingItems,
-        Func<int, Task> addRuRoutingItem)
+        Func<int, Task> addRuRoutingItem,
+        Func<RoutingItem, Task> removeRoutingItem,
+        Func<RoutingItem, Task> saveRoutingItem,
+        Func<RoutingItem, Task> setDefaultRouting)
     {
         config.ConstItem ??= new ConstItem();
         var fromVersion = config.ConstItem.ForkMigrationVersion;
@@ -81,6 +99,13 @@ public static class ForkMigrations
             {
                 await addRuRoutingItem(routingItems.Count + 1);
             }
+        }
+
+        if (fromVersion < 2)
+        {
+            // Step 2: drop the upstream China whitelist/blacklist presets and rename Global.
+            // Fresh databases are empty here and get only RU + Global from InitBuiltinRouting.
+            await CleanupBuiltinRoutingAsync(loadRoutingItems, addRuRoutingItem, removeRoutingItem, saveRoutingItem, setDefaultRouting);
         }
 
         config.ConstItem.ForkMigrationVersion = CurrentVersion;
@@ -105,12 +130,76 @@ public static class ForkMigrations
     }
 
     /// <summary>
+    /// Migration step 2 for routing: deletes the upstream builtin China whitelist and blacklist
+    /// items (matched by exact remarks) and renames the builtin Global item. When a deleted item
+    /// is the active one, the RU preset (added first if missing) becomes the default.
+    /// Any other routing item is left untouched.
+    /// </summary>
+    public static async Task CleanupBuiltinRoutingAsync(
+        Func<Task<IReadOnlyList<RoutingItem>>> loadRoutingItems,
+        Func<int, Task> addRuRoutingItem,
+        Func<RoutingItem, Task> removeRoutingItem,
+        Func<RoutingItem, Task> saveRoutingItem,
+        Func<RoutingItem, Task> setDefaultRouting)
+    {
+        var routingItems = await loadRoutingItems();
+        var obsoleteItems = routingItems.Where(IsObsoleteBuiltinRouting).ToList();
+        if (obsoleteItems.Any(item => item.IsActive))
+        {
+            var ruItem = FindRuRoutingPreset(routingItems);
+            if (ruItem is null)
+            {
+                await addRuRoutingItem(routingItems.Count + 1);
+                ruItem = FindRuRoutingPreset(await loadRoutingItems());
+            }
+            if (ruItem is not null)
+            {
+                await setDefaultRouting(ruItem);
+            }
+        }
+
+        foreach (var item in obsoleteItems)
+        {
+            await removeRoutingItem(item);
+        }
+
+        // Reload so the rename does not write back a stale IsActive flag.
+        var globalItems = (await loadRoutingItems())
+            .Where(item => item.Remarks == LegacyGlobalRoutingRemarks)
+            .ToList();
+        foreach (var item in globalItems)
+        {
+            item.Remarks = GlobalRoutingRemarks;
+            await saveRoutingItem(item);
+        }
+
+        var ruItems = (await loadRoutingItems())
+            .Where(item => item.Remarks == LegacyRuRoutingRemarks)
+            .ToList();
+        foreach (var item in ruItems)
+        {
+            item.Remarks = RuRoutingRemarks;
+            await saveRoutingItem(item);
+        }
+    }
+
+    public static bool IsObsoleteBuiltinRouting(RoutingItem item)
+    {
+        return item.Remarks is LegacyWhitelistRoutingRemarks or LegacyBlacklistRoutingRemarks;
+    }
+
+    private static RoutingItem? FindRuRoutingPreset(IReadOnlyList<RoutingItem> routingItems)
+    {
+        return routingItems.FirstOrDefault(item => ConfigDbHandler.IsRuRoutingPreset(item.Remarks));
+    }
+
+    /// <summary>
     /// True when the database already has routing items (locked legacy items, which
     /// InitBuiltinRouting removes, do not count) but none of them is the RU preset.
     /// </summary>
     public static bool NeedsRuRoutingPreset(IReadOnlyList<RoutingItem> routingItems)
     {
         return routingItems.Any(item => !item.Locked)
-            && !routingItems.Any(item => item.Remarks?.Contains(ConfigDbHandler.RuRoutingRemarksTag) == true);
+            && !routingItems.Any(item => ConfigDbHandler.IsRuRoutingPreset(item.Remarks));
     }
 }

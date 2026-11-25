@@ -3,10 +3,14 @@ namespace ServiceLib;
 public class Global
 {
     public const string AppName = "v2rayN";
+    public const string AppDisplayName = "Tropa";
     public const string GithubUrl = "https://github.com";
     public const string GithubApiUrl = "https://api.github.com/repos";
     // Repository (owner/name) this app downloads its own self-updates from.
     public const string AppRepo = "johndoecesko/v2rayN";
+    // Fork project page ("About") and the Russian setup guide opened from the Help menu.
+    public const string AppRepoUrl = GithubUrl + "/" + AppRepo;
+    public const string SetupGuideUrl = AppRepoUrl + "/blob/master/docs/ru-variant-c-stealth.md";
     public const string GeoUrl = "https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/{0}.dat";
     public const string SingboxRulesetUrl = @"https://raw.githubusercontent.com/2dust/sing-box-rules/rule-set-{0}/{1}.srs";
 
@@ -486,12 +490,6 @@ public class Global
         "77.88.8.8",
         "77.88.8.8,77.88.8.1",
         "https://common.dot.dns.yandex.net/dns-query",
-        "119.29.29.29",
-        "223.5.5.5",
-        "119.29.29.29,223.5.5.5,https://doh.pub/dns-query",
-        "https://doh.pub/dns-query",
-        "https://dns.alidns.com/dns-query",
-        "https://doh.pub/dns-query,https://dns.alidns.com/dns-query",
         "localhost"
     ];
 
@@ -517,18 +515,15 @@ public class Global
     public static readonly List<string> DomainPureIPDNSAddress =
     [
         "77.88.8.8",
-        "119.29.29.29",
-        "223.5.5.5",
+        "77.88.8.1",
         "localhost"
     ];
 
     public static readonly List<string> DomainDNS4PreResolveAddress =
     [
         "",
-        "https://doh.pub/dns-query",
-        "https://dns.alidns.com/dns-query",
-        "119.29.29.29",
-        "223.5.5.5",
+        "77.88.8.8",
+        "https://common.dot.dns.yandex.net/dns-query",
         "localhost",
         "https://cloudflare-dns.com/dns-query",
         "https://dns.google/dns-query",
@@ -781,8 +776,6 @@ public class Global
 
     public static readonly List<string> ExpectedIPs =
     [
-        "geoip:cn",
-        "geoip:ir",
         "geoip:ru",
         ""
     ];

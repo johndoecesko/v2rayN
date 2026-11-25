@@ -34,6 +34,28 @@
                             <TextBlock Text="{Binding Remarks}" />
                         </DataTemplate>
                     </ListBox.ItemTemplate>
+                    <!--  Per-subscription actions; suppressed for the "All" pseudo-group in code-behind.  -->
+                    <ListBox.ContextMenu>
+                        <ContextMenu Style="{StaticResource DefContextMenu}">
+                            <MenuItem
+                                x:Name="menuSubItemUpdate"
+                                Height="{StaticResource MenuItemHeight}"
+                                Header="{x:Static resx:ResUI.menuSubItemUpdate}" />
+                            <MenuItem
+                                x:Name="menuSubItemUpdateViaProxy"
+                                Height="{StaticResource MenuItemHeight}"
+                                Header="{x:Static resx:ResUI.menuSubItemUpdateViaProxy}" />
+                            <Separator />
+                            <MenuItem
+                                x:Name="menuSubEdit"
+                                Height="{StaticResource MenuItemHeight}"
+                                Header="{x:Static resx:ResUI.menuSubEdit}" />
+                            <MenuItem
+                                x:Name="menuSubDelete"
+                                Height="{StaticResource MenuItemHeight}"
+                                Header="{x:Static resx:ResUI.menuSubDelete}" />
+                        </ContextMenu>
+                    </ListBox.ContextMenu>
                 </ListBox>
 
                 <Button

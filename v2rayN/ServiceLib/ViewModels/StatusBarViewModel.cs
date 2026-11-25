@@ -91,6 +91,24 @@ public partial class StatusBarViewModel : MyReactiveObject
 
     #endregion UI
 
+    #region Connection indicator
+
+    // "Connected" means traffic is actually routed through the app: the system proxy
+    // (global or PAC) is set, or TUN mode is on. The core itself keeps running either way.
+    [Reactive]
+    public partial bool BlConnected { get; set; }
+
+    [Reactive]
+    public partial string ConnectionStateDisplay { get; set; }
+
+    // "<server name> · <routing name>" for the top bar indicator.
+    [Reactive]
+    public partial string ConnectionSummaryDisplay { get; set; }
+
+    private string _runningServerName = string.Empty;
+
+    #endregion Connection indicator
+
     public StatusBarViewModel()
     {
         _config = ConfigTextHandler.Config;
@@ -98,6 +116,8 @@ public partial class StatusBarViewModel : MyReactiveObject
         RunningServerToolTipText = GetRunningServerToolTipText("-");
         BlSystemProxyPacVisible = Utils.IsWindows();
         BlIsNonWindows = Utils.IsNonWindows();
+        ConnectionStateDisplay = ResUI.TbDisconnected;
+        ConnectionSummaryDisplay = string.Empty;
 
         if (_config.TunModeItem.EnableTun && AllowEnableTun())
         {
@@ -121,6 +141,20 @@ public partial class StatusBarViewModel : MyReactiveObject
 
         this.WhenAnyValue(x => x.EnableTun)
             .SubscribeAsync(async _ => await DoEnableTun());
+
+        this.WhenAnyValue(
+                x => x.BlSystemProxySet,
+                x => x.BlSystemProxyPac,
+                x => x.EnableTun,
+                (sysProxySet, sysProxyPac, tun) => sysProxySet || sysProxyPac || tun)
+            .Subscribe(connected =>
+            {
+                BlConnected = connected;
+                ConnectionStateDisplay = connected ? ResUI.TbConnected : ResUI.TbDisconnected;
+            });
+
+        this.WhenAnyValue(x => x.SelectedRouting)
+            .Subscribe(_ => UpdateConnectionSummary());
 
         CopyProxyCmdToClipboardCmd = ReactiveCommand.CreateFromTask(async () =>
         {
@@ -249,17 +283,57 @@ public partial class StatusBarViewModel : MyReactiveObject
         {
             RunningServerDisplay = running.GetSummary();
             RunningServerToolTipText = GetRunningServerToolTipText(RunningServerDisplay);
+            _runningServerName = running.Remarks.IsNullOrEmpty() ? RunningServerDisplay : running.Remarks;
         }
         else
         {
             RunningServerDisplay = ResUI.CheckServerSettings;
             RunningServerToolTipText = GetRunningServerToolTipText(RunningServerDisplay);
+            _runningServerName = string.Empty;
+        }
+        UpdateConnectionSummary();
+    }
+
+    private void UpdateConnectionSummary()
+    {
+        var parts = new List<string>();
+        if (_runningServerName.IsNotEmpty())
+        {
+            parts.Add(_runningServerName);
+        }
+        if (SelectedRouting?.Remarks.IsNotEmpty() == true)
+        {
+            parts.Add(SelectedRouting.Remarks);
+        }
+        ConnectionSummaryDisplay = string.Join(" · ", parts);
+    }
+
+    /// <summary>
+    /// Top bar connection toggle. Reuses the existing system proxy / TUN switches:
+    /// "connect" sets the global system proxy; "disconnect" clears the system proxy
+    /// (when it is global or PAC) and turns TUN off (when it is on).
+    /// </summary>
+    public async Task ToggleConnectionAsync()
+    {
+        if (!BlConnected)
+        {
+            await SetListenerType(ESysProxyType.ForcedChange);
+            return;
+        }
+
+        if (_config.SystemProxyItem.SysProxyType is ESysProxyType.ForcedChange or ESysProxyType.Pac)
+        {
+            await SetListenerType(ESysProxyType.ForcedClear);
+        }
+        if (EnableTun)
+        {
+            EnableTun = false;
         }
     }
 
     private string GetRunningServerToolTipText(string serverInfo)
     {
-        return Utils.IsLinux() ? Global.AppName : serverInfo;
+        return Utils.IsLinux() ? Global.AppDisplayName : serverInfo;
     }
 
     public async Task<AvailabilityCheckResult?> TestServerAvailability()

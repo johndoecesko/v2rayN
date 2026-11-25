@@ -5624,5 +5624,266 @@ namespace ServiceLib.Resx {
                 return ResourceManager.GetString("XdriveService", resourceCulture);
             }
         }
+
+        /// <summary>
+        ///   查找类似 Connected 的本地化字符串。
+        /// </summary>
+        public static string TbConnected {
+            get {
+                return ResourceManager.GetString("TbConnected", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   查找类似 Disconnected 的本地化字符串。
+        /// </summary>
+        public static string TbDisconnected {
+            get {
+                return ResourceManager.GetString("TbDisconnected", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   查找类似 Click to turn the system proxy on or off 的本地化字符串。
+        /// </summary>
+        public static string TbConnectionToggleTip {
+            get {
+                return ResourceManager.GetString("TbConnectionToggleTip", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   查找类似 More 的本地化字符串。
+        /// </summary>
+        public static string menuMore {
+            get {
+                return ResourceManager.GetString("menuMore", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   查找类似 Subscriptions 的本地化字符串。
+        /// </summary>
+        public static string menuSubscriptions {
+            get {
+                return ResourceManager.GetString("menuSubscriptions", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   查找类似 Paste from clipboard 的本地化字符串。
+        /// </summary>
+        public static string menuAddServerFromClipboard {
+            get {
+                return ResourceManager.GetString("menuAddServerFromClipboard", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   查找类似 Scan QR code 的本地化字符串。
+        /// </summary>
+        public static string menuAddServerScanQr {
+            get {
+                return ResourceManager.GetString("menuAddServerScanQr", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   查找类似 From file or image 的本地化字符串。
+        /// </summary>
+        public static string menuAddServerFromFile {
+            get {
+                return ResourceManager.GetString("menuAddServerFromFile", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   查找类似 Manually 的本地化字符串。
+        /// </summary>
+        public static string menuAddServerManual {
+            get {
+                return ResourceManager.GetString("menuAddServerManual", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   查找类似 Advanced 的本地化字符串。
+        /// </summary>
+        public static string menuAddServerAdvanced {
+            get {
+                return ResourceManager.GetString("menuAddServerAdvanced", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   查找类似 Update all 的本地化字符串。
+        /// </summary>
+        public static string menuSubUpdateAll {
+            get {
+                return ResourceManager.GetString("menuSubUpdateAll", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   查找类似 Update all via proxy 的本地化字符串。
+        /// </summary>
+        public static string menuSubUpdateAllViaProxy {
+            get {
+                return ResourceManager.GetString("menuSubUpdateAllViaProxy", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   查找类似 Update current group 的本地化字符串。
+        /// </summary>
+        public static string menuSubGroupUpdateCurrent {
+            get {
+                return ResourceManager.GetString("menuSubGroupUpdateCurrent", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   查找类似 Update current group via proxy 的本地化字符串。
+        /// </summary>
+        public static string menuSubGroupUpdateCurrentViaProxy {
+            get {
+                return ResourceManager.GetString("menuSubGroupUpdateCurrentViaProxy", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   查找类似 Add subscription 的本地化字符串。
+        /// </summary>
+        public static string menuSubAddNew {
+            get {
+                return ResourceManager.GetString("menuSubAddNew", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   查找类似 Manage… 的本地化字符串。
+        /// </summary>
+        public static string menuSubManage {
+            get {
+                return ResourceManager.GetString("menuSubManage", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   查找类似 Update 的本地化字符串。
+        /// </summary>
+        public static string menuSubItemUpdate {
+            get {
+                return ResourceManager.GetString("menuSubItemUpdate", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   查找类似 Update via proxy 的本地化字符串。
+        /// </summary>
+        public static string menuSubItemUpdateViaProxy {
+            get {
+                return ResourceManager.GetString("menuSubItemUpdateViaProxy", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   查找类似 Delete subscription "{0}" together with its servers? 的本地化字符串。
+        /// </summary>
+        public static string menuSubDeleteTips {
+            get {
+                return ResourceManager.GetString("menuSubDeleteTips", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   查找类似 General 的本地化字符串。
+        /// </summary>
+        public static string menuSettingsGeneral {
+            get {
+                return ResourceManager.GetString("menuSettingsGeneral", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   查找类似 Routing 的本地化字符串。
+        /// </summary>
+        public static string menuSettingsRouting {
+            get {
+                return ResourceManager.GetString("menuSettingsRouting", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   查找类似 DNS 的本地化字符串。
+        /// </summary>
+        public static string menuSettingsDns {
+            get {
+                return ResourceManager.GetString("menuSettingsDns", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   查找类似 Update Russia rules 的本地化字符串。
+        /// </summary>
+        public static string menuUpdateRuRules {
+            get {
+                return ResourceManager.GetString("menuUpdateRuRules", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   查找类似 Backup 的本地化字符串。
+        /// </summary>
+        public static string menuSettingsBackup {
+            get {
+                return ResourceManager.GetString("menuSettingsBackup", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   查找类似 For advanced users 的本地化字符串。
+        /// </summary>
+        public static string menuAdvancedSettings {
+            get {
+                return ResourceManager.GetString("menuAdvancedSettings", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   查找类似 Setup guide 的本地化字符串。
+        /// </summary>
+        public static string menuSetupGuide {
+            get {
+                return ResourceManager.GetString("menuSetupGuide", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   查找类似 Open program folder 的本地化字符串。
+        /// </summary>
+        public static string menuOpenProgramFolder {
+            get {
+                return ResourceManager.GetString("menuOpenProgramFolder", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   查找类似 About 的本地化字符串。
+        /// </summary>
+        public static string menuAbout {
+            get {
+                return ResourceManager.GetString("menuAbout", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   查找类似 Core websites 的本地化字符串。
+        /// </summary>
+        public static string menuCoreWebsites {
+            get {
+                return ResourceManager.GetString("menuCoreWebsites", resourceCulture);
+            }
+        }
     }
 }

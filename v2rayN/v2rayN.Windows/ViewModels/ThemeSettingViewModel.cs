@@ -8,6 +8,7 @@ namespace v2rayN.ViewModels;
 public partial class ThemeSettingViewModel : MyReactiveObject
 {
     private readonly PaletteHelper _paletteHelper = new();
+    private static readonly System.Windows.Media.Color BrandPrimaryColor = System.Windows.Media.Color.FromRgb(0x53, 0x4A, 0xB7);
 
     public BulkObservableCollection<Swatch> Swatches { get; } = [];
 
@@ -41,6 +42,11 @@ public partial class ThemeSettingViewModel : MyReactiveObject
             {
                 ChangePrimaryColor(swatch.ExemplarHue.Color);
             }
+        }
+        else
+        {
+            //No explicit user choice: use the brand primary color (#534AB7)
+            ChangePrimaryColor(BrandPrimaryColor);
         }
     }
 
