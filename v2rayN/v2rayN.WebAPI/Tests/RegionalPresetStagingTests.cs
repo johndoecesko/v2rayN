@@ -586,6 +586,24 @@ public class RegionalPresetStagingTests
     }
 
     [Test]
+    public async Task FirstRunDefaultsMatchTheStagedRussiaPresetAndFallBackToTheBuiltinRuRouteOffline()
+    {
+        var stager = new RegionalPresetStager((_, _, _) => Task.FromResult<string?>(null));
+
+        var staged = await stager.StageAsync(EPresetType.Russia, CreateDnsRows(), [], null, CancellationToken.None);
+        var config = new Config();
+        ForkMigrations.ApplyFirstRunDefaults(config);
+
+        // A fresh Desktop or WebAPI config starts with the Russia preset sources ...
+        await config.ConstItem.GeoSourceUrl.Should().BeEqualTo(staged.GeoSourceUrl);
+        await config.ConstItem.SrsSourceUrl.Should().BeEqualTo(staged.SrsSourceUrl);
+        await config.ConstItem.RouteRulesTemplateSourceUrl.Should().BeEqualTo(staged.RouteRulesTemplateSourceUrl);
+        // ... and without network the routing falls back to the embedded RU preset as default.
+        await staged.Routing.IsBuiltinFallback.Should().BeTrue();
+        await staged.Routing.DefaultRemarks.Should().BeEqualTo("V4-Обход России(RU direct)");
+    }
+
+    [Test]
     public async Task RoutingTemplateFallbackPreservesExistingActiveRouteLikeDesktopBuiltinInitialization()
     {
         var responses = CreateRegionalResponses();
