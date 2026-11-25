@@ -486,12 +486,6 @@ public class Global
         "77.88.8.8",
         "77.88.8.8,77.88.8.1",
         "https://common.dot.dns.yandex.net/dns-query",
-        "119.29.29.29",
-        "223.5.5.5",
-        "119.29.29.29,223.5.5.5,https://doh.pub/dns-query",
-        "https://doh.pub/dns-query",
-        "https://dns.alidns.com/dns-query",
-        "https://doh.pub/dns-query,https://dns.alidns.com/dns-query",
         "localhost"
     ];
 
@@ -517,18 +511,15 @@ public class Global
     public static readonly List<string> DomainPureIPDNSAddress =
     [
         "77.88.8.8",
-        "119.29.29.29",
-        "223.5.5.5",
+        "77.88.8.1",
         "localhost"
     ];
 
     public static readonly List<string> DomainDNS4PreResolveAddress =
     [
         "",
-        "https://doh.pub/dns-query",
-        "https://dns.alidns.com/dns-query",
-        "119.29.29.29",
-        "223.5.5.5",
+        "77.88.8.8",
+        "https://common.dot.dns.yandex.net/dns-query",
         "localhost",
         "https://cloudflare-dns.com/dns-query",
         "https://dns.google/dns-query",
@@ -781,8 +772,6 @@ public class Global
 
     public static readonly List<string> ExpectedIPs =
     [
-        "geoip:cn",
-        "geoip:ir",
         "geoip:ru",
         ""
     ];
