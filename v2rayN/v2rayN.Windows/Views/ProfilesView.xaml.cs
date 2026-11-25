@@ -25,6 +25,7 @@ public partial class ProfilesView
         lstProfiles.SelectionChanged += LstProfiles_SelectionChanged;
         lstProfiles.LoadingRow += LstProfiles_LoadingRow;
         menuSelectAll.Click += menuSelectAll_Click;
+        lstGroup.ContextMenuOpening += LstGroup_ContextMenuOpening;
 
         if (_config.UiItem.EnableDragDropSort)
         {
@@ -45,6 +46,10 @@ public partial class ProfilesView
             this.Bind(ViewModel, vm => vm.ServerFilter, v => v.txtServerFilter.Text).DisposeWith(disposables);
             this.BindCommand(ViewModel, vm => vm.AddSubCmd, v => v.btnAddSub).DisposeWith(disposables);
             this.BindCommand(ViewModel, vm => vm.EditSubCmd, v => v.btnEditSub).DisposeWith(disposables);
+            this.BindCommand(ViewModel, vm => vm.SubItemUpdateCmd, v => v.menuSubItemUpdate).DisposeWith(disposables);
+            this.BindCommand(ViewModel, vm => vm.SubItemUpdateViaProxyCmd, v => v.menuSubItemUpdateViaProxy).DisposeWith(disposables);
+            this.BindCommand(ViewModel, vm => vm.EditSubCmd, v => v.menuSubEdit).DisposeWith(disposables);
+            this.BindCommand(ViewModel, vm => vm.DeleteSubCmd, v => v.menuSubDelete).DisposeWith(disposables);
 
             //servers delete
             this.BindCommand(ViewModel, vm => vm.EditServerCmd, v => v.menuEditServer).DisposeWith(disposables);
@@ -215,6 +220,15 @@ public partial class ProfilesView
     private void menuSelectAll_Click(object sender, RoutedEventArgs e)
     {
         lstProfiles.SelectAll();
+    }
+
+    private void LstGroup_ContextMenuOpening(object sender, ContextMenuEventArgs e)
+    {
+        // Right-click selects the tab first; no per-subscription menu for the "All" pseudo-group.
+        if (ViewModel?.BlSubGroupSelected != true)
+        {
+            e.Handled = true;
+        }
     }
 
     private void LstProfiles_PreviewKeyDown(object sender, KeyEventArgs e)

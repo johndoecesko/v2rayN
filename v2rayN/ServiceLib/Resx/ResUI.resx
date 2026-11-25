@@ -1974,4 +1974,91 @@ The "Get Certificate" action may fail if a self-signed certificate is used or if
   <data name="TbSpeedtestSettings" xml:space="preserve">
     <value>Speedtest Settings</value>
   </data>
+  <data name="TbConnected" xml:space="preserve">
+    <value>Connected</value>
+  </data>
+  <data name="TbDisconnected" xml:space="preserve">
+    <value>Disconnected</value>
+  </data>
+  <data name="TbConnectionToggleTip" xml:space="preserve">
+    <value>Click to turn the system proxy on or off</value>
+  </data>
+  <data name="menuMore" xml:space="preserve">
+    <value>More</value>
+  </data>
+  <data name="menuSubscriptions" xml:space="preserve">
+    <value>Subscriptions</value>
+  </data>
+  <data name="menuAddServerFromClipboard" xml:space="preserve">
+    <value>Paste from clipboard</value>
+  </data>
+  <data name="menuAddServerScanQr" xml:space="preserve">
+    <value>Scan QR code</value>
+  </data>
+  <data name="menuAddServerFromFile" xml:space="preserve">
+    <value>From file or image</value>
+  </data>
+  <data name="menuAddServerManual" xml:space="preserve">
+    <value>Manually</value>
+  </data>
+  <data name="menuAddServerAdvanced" xml:space="preserve">
+    <value>Advanced</value>
+  </data>
+  <data name="menuSubUpdateAll" xml:space="preserve">
+    <value>Update all</value>
+  </data>
+  <data name="menuSubUpdateAllViaProxy" xml:space="preserve">
+    <value>Update all via proxy</value>
+  </data>
+  <data name="menuSubGroupUpdateCurrent" xml:space="preserve">
+    <value>Update current group</value>
+  </data>
+  <data name="menuSubGroupUpdateCurrentViaProxy" xml:space="preserve">
+    <value>Update current group via proxy</value>
+  </data>
+  <data name="menuSubAddNew" xml:space="preserve">
+    <value>Add subscription</value>
+  </data>
+  <data name="menuSubManage" xml:space="preserve">
+    <value>Manage…</value>
+  </data>
+  <data name="menuSubItemUpdate" xml:space="preserve">
+    <value>Update</value>
+  </data>
+  <data name="menuSubItemUpdateViaProxy" xml:space="preserve">
+    <value>Update via proxy</value>
+  </data>
+  <data name="menuSubDeleteTips" xml:space="preserve">
+    <value>Delete subscription "{0}" together with its servers?</value>
+  </data>
+  <data name="menuSettingsGeneral" xml:space="preserve">
+    <value>General</value>
+  </data>
+  <data name="menuSettingsRouting" xml:space="preserve">
+    <value>Routing</value>
+  </data>
+  <data name="menuSettingsDns" xml:space="preserve">
+    <value>DNS</value>
+  </data>
+  <data name="menuUpdateRuRules" xml:space="preserve">
+    <value>Update Russia rules</value>
+  </data>
+  <data name="menuSettingsBackup" xml:space="preserve">
+    <value>Backup</value>
+  </data>
+  <data name="menuAdvancedSettings" xml:space="preserve">
+    <value>For advanced users</value>
+  </data>
+  <data name="menuSetupGuide" xml:space="preserve">
+    <value>Setup guide</value>
+  </data>
+  <data name="menuOpenProgramFolder" xml:space="preserve">
+    <value>Open program folder</value>
+  </data>
+  <data name="menuAbout" xml:space="preserve">
+    <value>About</value>
+  </data>
+  <data name="menuCoreWebsites" xml:space="preserve">
+    <value>Core websites</value>
+  </data>
 </root>

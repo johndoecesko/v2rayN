@@ -32,11 +32,18 @@
                         </ItemsPanelTemplate>
                     </ListBox.ItemsPanel>
 
+                    <!--  Per-subscription actions; detached for the "All" pseudo-group in code-behind.  -->
                     <ListBox.ContextMenu>
-                        <ContextMenu>
+                        <ContextMenu x:Name="ctxSubGroup">
+                            <MenuItem x:Name="menuSubItemUpdate" Header="{x:Static resx:ResUI.menuSubItemUpdate}" />
+                            <MenuItem x:Name="menuSubItemUpdateViaProxy" Header="{x:Static resx:ResUI.menuSubItemUpdateViaProxy}" />
+                            <Separator />
                             <MenuItem x:Name="menuSubEdit" Header="{x:Static resx:ResUI.menuSubEdit}" />
-                            <MenuItem x:Name="menuSubAdd" Header="{x:Static resx:ResUI.menuSubAdd}" />
                             <MenuItem x:Name="menuSubDelete" Header="{x:Static resx:ResUI.menuSubDelete}" />
+                            <MenuItem
+                                x:Name="menuSubAdd"
+                                Header="{x:Static resx:ResUI.menuSubAdd}"
+                                IsVisible="False" />
                         </ContextMenu>
                     </ListBox.ContextMenu>
                 </ListBox>
