@@ -13,6 +13,9 @@ public partial class ProfilesViewModel : MyReactiveObject
     public EventChannel<RxVoid> ReloadRequested { get; } = new();
     public EventChannel<RxVoid> RefreshServersRequested { get; } = new();
 
+    // (subscription id, update via proxy) -> handled by MainWindowViewModel.UpdateSubscriptionProcess
+    public EventChannel<(string SubId, bool BlProxy)> SubUpdateRequested { get; } = new();
+
     #region private prop
 
     private string _serverFilter = string.Empty;
@@ -41,6 +44,10 @@ public partial class ProfilesViewModel : MyReactiveObject
 
     [Reactive]
     public partial string ServerFilter { get; set; }
+
+    // True when a real subscription tab is selected (not the "All" pseudo-group).
+    [Reactive]
+    public partial bool BlSubGroupSelected { get; set; }
 
     #endregion ObservableCollection
 
@@ -87,6 +94,8 @@ public partial class ProfilesViewModel : MyReactiveObject
     public ReactiveCommand<RxVoid, RxVoid> AddSubCmd { get; }
     public ReactiveCommand<RxVoid, RxVoid> EditSubCmd { get; }
     public ReactiveCommand<RxVoid, RxVoid> DeleteSubCmd { get; }
+    public ReactiveCommand<RxVoid, RxVoid> SubItemUpdateCmd { get; }
+    public ReactiveCommand<RxVoid, RxVoid> SubItemUpdateViaProxyCmd { get; }
 
     #endregion Menu
 
@@ -102,9 +111,15 @@ public partial class ProfilesViewModel : MyReactiveObject
            x => x.SelectedProfile,
            selectedSource => selectedSource != null && !selectedSource.IndexId.IsNullOrEmpty());
 
+        var canSubGroup = this.WhenAnyValue(
+           x => x.SelectedSub,
+           selectedSub => selectedSub?.Id.IsNotEmpty() == true);
+
         this.WhenAnyValue(x => x.SelectedSub)
             .Where(y => y != null && !y.Remarks.IsNullOrEmpty() && _config.SubIndexId != y.Id)
             .SubscribeAsync(async _ => await SubSelectedChangedAsync());
+        this.WhenAnyValue(x => x.SelectedSub)
+            .Subscribe(sub => BlSubGroupSelected = sub?.Id.IsNotEmpty() == true);
         this.WhenAnyValue(x => x.SelectedMoveToGroup)
             .Where(y => y != null && !y.Remarks.IsNullOrEmpty())
             .SubscribeAsync(async _ => await MoveToGroup());
@@ -237,6 +252,14 @@ public partial class ProfilesViewModel : MyReactiveObject
         {
             await DeleteSubAsync();
         });
+        SubItemUpdateCmd = ReactiveCommand.CreateFromTask(async () =>
+        {
+            await UpdateSelectedSubAsync(false);
+        }, canSubGroup);
+        SubItemUpdateViaProxyCmd = ReactiveCommand.CreateFromTask(async () =>
+        {
+            await UpdateSelectedSubAsync(true);
+        }, canSubGroup);
 
         #endregion WhenAnyValue && ReactiveCommand
 
@@ -916,14 +939,27 @@ public partial class ProfilesViewModel : MyReactiveObject
             return;
         }
 
-        if (await ShowYesNoInteraction.HandleSafe(ResUI.RemoveServer) == false)
+        if (await ShowYesNoInteraction.HandleSafe(string.Format(ResUI.menuSubDeleteTips, item.Remarks)) == false)
         {
             return;
         }
         await ConfigDbHandler.DeleteSubItem(item.Id);
 
+        // Fall back to the "All" pseudo-group (empty id) instead of another subscription.
+        _config.SubIndexId = null;
         await RefreshSubscriptions();
         await SubSelectedChangedAsync();
+    }
+
+    private async Task UpdateSelectedSubAsync(bool blProxy)
+    {
+        var subId = SelectedSub?.Id;
+        if (subId.IsNullOrEmpty())
+        {
+            return;
+        }
+        SubUpdateRequested.Publish((subId, blProxy));
+        await Task.CompletedTask;
     }
 
     #endregion Subscription

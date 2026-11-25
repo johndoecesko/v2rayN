@@ -39,6 +39,12 @@ public partial class ProfilesView : ReactiveUserControl<ProfilesViewModel>
             this.BindCommand(ViewModel, vm => vm.EditSubCmd, v => v.menuSubEdit).DisposeWith(disposables);
             this.BindCommand(ViewModel, vm => vm.AddSubCmd, v => v.menuSubAdd).DisposeWith(disposables);
             this.BindCommand(ViewModel, vm => vm.DeleteSubCmd, v => v.menuSubDelete).DisposeWith(disposables);
+            this.BindCommand(ViewModel, vm => vm.SubItemUpdateCmd, v => v.menuSubItemUpdate).DisposeWith(disposables);
+            this.BindCommand(ViewModel, vm => vm.SubItemUpdateViaProxyCmd, v => v.menuSubItemUpdateViaProxy).DisposeWith(disposables);
+            // Right-click selects the tab first; no per-subscription menu for the "All" pseudo-group.
+            this.WhenAnyValue(v => v.ViewModel.BlSubGroupSelected)
+                .Subscribe(selected => lstGroup.ContextMenu = selected ? ctxSubGroup : null)
+                .DisposeWith(disposables);
 
             //servers delete
             this.BindCommand(ViewModel, vm => vm.EditServerCmd, v => v.menuEditServer).DisposeWith(disposables);

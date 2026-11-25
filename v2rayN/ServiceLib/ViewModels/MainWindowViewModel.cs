@@ -307,6 +307,11 @@ public partial class MainWindowViewModel : MyReactiveObject
             .ObserveOn(RxSchedulers.MainThreadScheduler)
             .SubscribeAsync(async _ => await RefreshServersDispatcherAsync());
 
+        ProfilesViewModel.SubUpdateRequested
+            .AsObservable()
+            .ObserveOn(RxSchedulers.MainThreadScheduler)
+            .SubscribeAsync(async req => await UpdateSubscriptionProcess(req.SubId, req.BlProxy));
+
         var vmReloadRequestedList = new List<IObservable<RxVoid>>
         {
             ProfilesViewModel.ReloadRequested.AsObservable(),
