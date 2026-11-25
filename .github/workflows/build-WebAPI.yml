@@ -616,7 +616,9 @@ jobs:
   native-loong64:
     name: Native API build (linux-loongarch64)
     needs: identity
-    if: needs.identity.outputs.release == 'true'
+    # Emulated QEMU build: in forks it repeatedly hung/failed after a successful publish,
+    # so it runs only upstream; release-assets treats linux-loongarch64 as optional.
+    if: needs.identity.outputs.release == 'true' && github.repository == '2dust/v2rayN'
     runs-on: ubuntu-26.04-arm
     env:
       RID: linux-loongarch64
@@ -933,11 +935,13 @@ jobs:
             --build-date "${{ needs.identity.outputs.build_date }}" \
             --dist release-assets \
             --optional-rid linux-riscv64 \
+            --optional-rid linux-loongarch64 \
             --output release-assets/WebAPI-update.json
           python3 v2rayN/v2rayN.WebAPI/Scripts/web-update-manifest.py verify \
             --manifest release-assets/WebAPI-update.json \
             --dist release-assets \
             --optional-rid linux-riscv64 \
+            --optional-rid linux-loongarch64 \
             --repository "${{ github.repository }}"
       - name: Smoke-test full API ZIP
         run: bash v2rayN/v2rayN.WebAPI/Tests/Integration/test-full-zip-runtime.sh release-assets/v2rayN-linux-64-WebAPI.zip
