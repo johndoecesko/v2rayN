@@ -105,6 +105,12 @@ public class ConstItem
     public string? GeoSourceUrl { get; set; }
     public string? SrsSourceUrl { get; set; }
     public string? RouteRulesTemplateSourceUrl { get; set; }
+
+    /// <summary>
+    /// Last applied one-time fork migration step (see <c>ForkMigrations.CurrentVersion</c>).
+    /// 0 for configs created by upstream v2rayN or earlier fork builds.
+    /// </summary>
+    public int ForkMigrationVersion { get; set; }
 }
 
 public class KeyEventItem

@@ -102,6 +102,8 @@ public sealed class AppManager
         _ = StatePort2;
 
         Task.Run(async () => await ConfigDbHandler.MigrateProfileExtra()).Wait();
+        // Before InitBuiltinRouting runs (StatusBarViewModel / WebAPI startup); local only, no network.
+        Task.Run(async () => await ConfigDbHandler.MigrateFork()).Wait();
 
         return true;
     }

@@ -228,6 +228,8 @@ internal sealed class RegionalPresetStager(
 
         if (items.Count > 0)
         {
+            // Like InitBuiltinRouting, existing tables get no builtin rows here; the RU preset
+            // is added to upgraded installs once at startup by ForkMigrations (AppManager.InitComponents).
             var migrationTarget = clearLegacyIndex
                 ? items.FirstOrDefault(item => item.Id == legacyRoutingIndexId)
                 : null;
