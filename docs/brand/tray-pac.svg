@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 56 56" width="64" height="64" role="img" aria-label="Tropa tray: pac">
+  <rect x="1" y="1" width="54" height="54" rx="12" fill="#BA7517"/>
+  <path d="M14 46 C14 35, 42 39, 42 29 S28 21, 28 13" stroke="#FFFFFF" stroke-width="7.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="28" cy="11" r="6" fill="#FFFFFF"/>
+</svg>
